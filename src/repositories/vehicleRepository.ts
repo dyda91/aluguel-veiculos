@@ -27,7 +27,14 @@ class VehicleRepository {
       vehicleData.hourlyRate
     );
     this.vehicles.push(newVehicle);
+    console.log(newVehicle)
     return newVehicle;
+  }
+  updateVehicleStatus(plate: string, isAvailable: boolean): void {
+    const vehicle = this.getVehicleByPlate(plate);
+    if (vehicle) {
+      vehicle.isAvailable = isAvailable;
+    }
   }
 }
 

@@ -13,7 +13,7 @@ class CustomerController {
   }
 
   async getCustomerById(req: Request, res: Response, next: NextFunction) {
-    const customerId = parseInt(req.params.id, 10);
+    const customerId = req.params.id;
 
     try {
       const customer = await customerService.getCustomerById(customerId);
@@ -29,11 +29,10 @@ class CustomerController {
   }
 
   async createCustomer(req: Request, res: Response, next: NextFunction) {
-    console.log(req.body)
     const { name, email, phone, licenseCategory } = req.body;
 
     if (!name || !email || !phone || !licenseCategory) {
-      return res.status(400).json({ error: 'Necessário todos os dados' });
+      return res.status(400).json({ error: 'Necessário fornecer todos os dados' });
     }
 
     try {

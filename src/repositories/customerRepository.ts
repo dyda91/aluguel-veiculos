@@ -7,14 +7,13 @@ class CustomerRepository {
     return this.customers;
   }
 
-  getCustomerById(customerId: number): Customer | undefined {
+  getCustomerById(customerId: string): Customer | undefined {
     return this.customers.find((customer) => customer.id === customerId);
   }
 
-  createCustomer(customerData: { name: string; email: string; phone: string; licenseCategory: LicenseCategory }): Customer {
-    const newCustomerId = this.customers.length + 1;
-    const newCustomer = new Customer(newCustomerId, customerData.name, customerData.email, customerData.phone, customerData.licenseCategory);
+  createCustomer(newCustomer: Customer): Customer {
     this.customers.push(newCustomer);
+    console.log(newCustomer)
     return newCustomer;
   }
 }
