@@ -29,18 +29,27 @@ class VehicleController {
   }
 
   async createVehicle(req: Request, res: Response, next: NextFunction) {
-    const { plate, manufacturer, model, year, kilometers, category } = req.body;
+    const { plate, manufacturer, model, year, kilometers, category, hourlyRate } = req.body;
+    console.log(req.body)
 
-    if (!plate || !manufacturer || !model || !year || !kilometers || !category) {
-      return res.status(400).json({ error: 'Necessário todos os dados' });
+    if (!plate || !manufacturer || !model || !year || !kilometers || !category || hourlyRate === undefined) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
 
     try {
-      const newVehicle = await vehicleService.createVehicle({ plate, manufacturer, model, year, kilometers, category });
+      const newVehicle = await vehicleService.createVehicle({
+        plate,
+        manufacturer,
+        model,
+        year,
+        kilometers,
+        category,
+        hourlyRate,
+      });
       res.status(201).json(newVehicle);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 }

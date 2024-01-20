@@ -11,7 +11,7 @@ class VehicleRepository {
     return this.vehicles.find((vehicle) => vehicle.plate === plate);
   }
 
-  createVehicle(vehicleData: { plate: string; manufacturer: string; model: string; year: number; kilometers: number; category: VehicleCategory }): Vehicle {
+  createVehicle(vehicleData: { plate: string; manufacturer: string; model: string; year: number; kilometers: number; category: VehicleCategory, hourlyRate: number;  }): Vehicle {
     const existingVehicle = this.getVehicleByPlate(vehicleData.plate);
     if (existingVehicle) {
       throw new Error('Veículo com placa já cadastrada');
@@ -23,7 +23,8 @@ class VehicleRepository {
       vehicleData.model,
       vehicleData.year,
       vehicleData.kilometers,
-      vehicleData.category
+      vehicleData.category,
+      vehicleData.hourlyRate
     );
     this.vehicles.push(newVehicle);
     return newVehicle;

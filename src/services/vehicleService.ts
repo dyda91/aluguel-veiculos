@@ -3,7 +3,6 @@ import { Vehicle, VehicleCategory } from '../models/vehicleModel';
 
 class VehicleService {
 
-
   getAllVehicles() {
     return vehicleRepository.getAllVehicles();
   }
@@ -12,7 +11,15 @@ class VehicleService {
     return vehicleRepository.getVehicleByPlate(plate);
   }
 
-  createVehicle(vehicleData: { plate: string; manufacturer: string; model: string; year: number; kilometers: number; category: VehicleCategory }): Vehicle {
+  createVehicle(vehicleData: {
+    plate: string;
+    manufacturer: string;
+    model: string;
+    year: number;
+    kilometers: number;
+    category: VehicleCategory;
+    hourlyRate: number; 
+  }): Vehicle {
     return vehicleRepository.createVehicle(vehicleData);
   }
 }
