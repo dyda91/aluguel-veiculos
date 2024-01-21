@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { rentalService } from '../services/rentalService';
-import { customerService } from '../services/custumerService';
-import { vehicleService } from '../services/vehicleService';
+import { rentalService } from '../services/RentalService';
+import { customerService } from '../services/CustumerService';
+import { vehicleService } from '../services/VehicleService';
 
 class RentalController {
   async rentVehicle(req: Request, res: Response, next: NextFunction) {

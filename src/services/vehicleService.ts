@@ -1,5 +1,5 @@
-import { vehicleRepository } from '../repositories/vehicleRepository';
-import { Vehicle, VehicleCategory } from '../models/vehicleModel';
+import { vehicleRepository } from '../repositories/VehicleRepository';
+import { Vehicle, VehicleCategory } from '../models/Vehicle';
 
 class VehicleService {
 
@@ -20,7 +20,17 @@ class VehicleService {
     category: VehicleCategory;
     hourlyRate: number; 
   }): Vehicle {
-    return vehicleRepository.createVehicle(vehicleData);
+    const newVehicle = new Vehicle(
+      vehicleData.plate,
+      vehicleData.manufacturer,
+      vehicleData.model,
+      vehicleData.year,
+      vehicleData.kilometers,
+      vehicleData.category,
+      vehicleData.hourlyRate
+    );
+    vehicleRepository.createVehicle(newVehicle);
+    return newVehicle;
   }
 }
 

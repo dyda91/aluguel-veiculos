@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { vehicleService } from '../services/vehicleService';
+import { vehicleService } from '../services/VehicleService';
 
 class VehicleController {
   async getAllVehicles(req: Request, res: Response, next: NextFunction) {

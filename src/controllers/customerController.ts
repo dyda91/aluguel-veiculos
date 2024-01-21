@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerService } from '../services/custumerService';
+import { customerService } from '../services/CustumerService';
 
 class CustomerController {
   async getAllCustomers(req: Request, res: Response, next: NextFunction) {
@@ -29,14 +29,20 @@ class CustomerController {
   }
 
   async createCustomer(req: Request, res: Response, next: NextFunction) {
-    const { name, email, phone, licenseCategory } = req.body;
+    const { name, cpf, email, phone, licenseCategory } = req.body;
 
-    if (!name || !email || !phone || !licenseCategory) {
+    if (!name || !cpf || !email || !phone || !licenseCategory) {
       return res.status(400).json({ error: 'Necessário fornecer todos os dados' });
     }
 
     try {
-      const newCustomer = await customerService.createCustomer({ name, email, phone, licenseCategory });
+      const newCustomer = await customerService.createCustomer({ 
+        name,
+        cpf,
+        email,
+        phone,
+        licenseCategory
+      });
       res.status(201).json(newCustomer);
     } catch (error) {
       console.error(error);

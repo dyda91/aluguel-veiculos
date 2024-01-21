@@ -1,8 +1,8 @@
-import { Rental, RentalStatus } from '../models/rentalModel';
-import { Vehicle } from '../models/vehicleModel';
-import { Customer } from '../models/customerModel';
-import { rentalRepository } from '../repositories/rentalRepository';
-import { vehicleRepository } from '../repositories/vehicleRepository';
+import { Rental, RentalStatus } from '../models/Rental';
+import { Vehicle } from '../models/Vehicle';
+import { Customer } from '../models/Customer';
+import { rentalRepository } from '../repositories/RentalRepository';
+import { vehicleRepository } from '../repositories/VehicleRepository';
 import { v4 as uuidv4 } from 'uuid';
 
 class RentalService {

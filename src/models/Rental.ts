@@ -1,13 +1,13 @@
-import { Customer } from './customerModel';
-import { Vehicle } from './vehicleModel';
+import { Customer } from './Customer';
+import { Vehicle } from './Vehicle';
 
 enum RentalStatus {
-    PENDING = 'PENDING',
-    ACTIVE = 'ACTIVE',
-    COMPLETED = 'COMPLETED',
-    CANCELLED = 'CANCELLED',
-  }
-  
+  PENDING = 'PENDING',
+  ACTIVE = 'ACTIVE',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
 
 interface Rental {
   id: number;

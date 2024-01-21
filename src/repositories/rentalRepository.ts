@@ -1,4 +1,4 @@
-import { Rental, RentalStatus } from '../models/rentalModel';
+import { Rental, RentalStatus } from '../models/Rental';
 
 
 const rentals: Rental[] = [];

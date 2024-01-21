@@ -1,4 +1,4 @@
-import { Vehicle, VehicleCategory } from '../models/vehicleModel';
+import { Vehicle, VehicleCategory } from '../models/Vehicle';
 
 class VehicleRepository {
   private vehicles: Vehicle[] = [];
@@ -11,25 +11,12 @@ class VehicleRepository {
     return this.vehicles.find((vehicle) => vehicle.plate === plate);
   }
 
-  createVehicle(vehicleData: { plate: string; manufacturer: string; model: string; year: number; kilometers: number; category: VehicleCategory, hourlyRate: number;  }): Vehicle {
-    const existingVehicle = this.getVehicleByPlate(vehicleData.plate);
-    if (existingVehicle) {
-      throw new Error('Veículo com placa já cadastrada');
-    }
-
-    const newVehicle = new Vehicle(
-      vehicleData.plate,
-      vehicleData.manufacturer,
-      vehicleData.model,
-      vehicleData.year,
-      vehicleData.kilometers,
-      vehicleData.category,
-      vehicleData.hourlyRate
-    );
+  createVehicle(newVehicle: Vehicle): Vehicle {
     this.vehicles.push(newVehicle);
-    console.log(newVehicle)
-    return newVehicle;
+    console.log(newVehicle);
+    return newVehicle
   }
+
   updateVehicleStatus(plate: string, isAvailable: boolean): void {
     const vehicle = this.getVehicleByPlate(plate);
     if (vehicle) {

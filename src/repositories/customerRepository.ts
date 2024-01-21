@@ -1,4 +1,4 @@
-import { Customer, LicenseCategory } from '../models/customerModel';
+import { Customer } from '../models/Customer';
 
 class CustomerRepository {
   private customers: Customer[] = [];
