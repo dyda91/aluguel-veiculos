@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { VehicleCategory } from '../models/Vehicle';
 
-class ValidateCategoryMiddleware {
+class VehicleCategoryMiddleware {
   async validateCategory(req: Request, res: Response, next: NextFunction) {
     const { category } = req.body;
 
@@ -18,6 +18,6 @@ class ValidateCategoryMiddleware {
   }
 }
 
-const validateCategoryMiddleware = new ValidateCategoryMiddleware();
+const vehicleCategoryMiddleware = new VehicleCategoryMiddleware();
 
-export { validateCategoryMiddleware };
+export { vehicleCategoryMiddleware };

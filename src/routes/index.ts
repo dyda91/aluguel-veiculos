@@ -4,16 +4,20 @@ import { vehicleController } from '../controllers/VehicleController';
 import { rentalController } from '../controllers/RentalController';
 
 import { existingVehicleMiddleware } from '../middleware/ExistingVehicleMiddleware';
-import { validateCategoryMiddleware } from '../middleware/ValidateCategoryMiddleware';
-import { validateEmailMiddleware } from '../middleware/ValidateEmailMiddleware';
-import { validateCPFMiddleware } from '../middleware/ValidateCPFMiddleware';
+import { emailMiddleware } from '../middleware/EmailMiddleware';
+import { cpf_Middleware } from '../middleware/CPF_Middleware';
+import { licenseCategoryMiddleware } from '../middleware/LicenseCategoryMiddleware';
+import { vehicleCategoryMiddleware } from '../middleware/VehicleCategoryMiddleware';
+
+
 
 const routes = Router();
 
 //Customer
 routes.post('/customers',
-    validateEmailMiddleware.validateEmail,
-    validateCPFMiddleware.validateCPF, 
+    emailMiddleware.validateEmail,
+    cpf_Middleware.validateCPF,
+    licenseCategoryMiddleware.validateLicenseCategory, 
     customerController.createCustomer
 );
 
@@ -24,7 +28,7 @@ routes.get('/customers/:id', customerController.getCustomerById);
 //Vehicles
 routes.post('/vehicles', 
     existingVehicleMiddleware.checkExistingVehicle,
-    validateCategoryMiddleware.validateCategory, 
+    vehicleCategoryMiddleware.validateCategory, 
     vehicleController.createVehicle
 );
 

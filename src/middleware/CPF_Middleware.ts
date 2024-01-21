@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { customerRepository } from '../repositories/CustomerRepository';
 
-class ValidateCPFMiddleware {
+class CPF_Middleware {
   async validateCPF(req: Request, res: Response, next: NextFunction) {
     const { cpf } = req.body;
 
@@ -26,6 +26,6 @@ class ValidateCPFMiddleware {
   }
 }
 
-const validateCPFMiddleware = new ValidateCPFMiddleware();
+const cpf_Middleware = new CPF_Middleware();
 
-export { validateCPFMiddleware };
+export { cpf_Middleware };
