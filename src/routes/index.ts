@@ -5,11 +5,18 @@ import { rentalController } from '../controllers/RentalController';
 
 import { existingVehicleMiddleware } from '../middleware/ExistingVehicleMiddleware';
 import { validateCategoryMiddleware } from '../middleware/ValidateCategoryMiddleware';
+import { validateEmailMiddleware } from '../middleware/ValidateEmailMiddleware';
+import { validateCPFMiddleware } from '../middleware/ValidateCPFMiddleware';
 
 const routes = Router();
 
 //Customer
-routes.post('/customers', customerController.createCustomer);
+routes.post('/customers',
+    validateEmailMiddleware.validateEmail,
+    validateCPFMiddleware.validateCPF, 
+    customerController.createCustomer
+);
+
 routes.get('/customers', customerController.getAllCustomers);
 routes.get('/customers/:id', customerController.getCustomerById);
 
@@ -20,6 +27,7 @@ routes.post('/vehicles',
     validateCategoryMiddleware.validateCategory, 
     vehicleController.createVehicle
 );
+
 routes.get('/vehicles', vehicleController.getAllVehicles);
 routes.get('/vehicles/:plate', vehicleController.getVehicleByPlate);
 

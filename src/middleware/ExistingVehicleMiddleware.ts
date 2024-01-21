@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { vehicleRepository } from '../repositories/VehicleRepository';
 
 class ExistingVehicleMiddleware {
-  checkExistingVehicle(req: Request, res: Response, next: NextFunction) {
+  async checkExistingVehicle(req: Request, res: Response, next: NextFunction) {
     const plate = req.body.plate;
 
     const isValidPlateFormat = (plate: string): boolean => {
@@ -16,7 +16,7 @@ class ExistingVehicleMiddleware {
       const existingVehicle = vehicleRepository.getVehicleByPlate(plate);
 
       if (existingVehicle) {
-        return res.status(401).json({ error: 'Veículo já cadastrado' });
+        return res.status(400).json({ error: 'Veículo já cadastrado' });
       }
 
       if (!isValidPlateFormat(plate)) {
