@@ -1,6 +1,5 @@
 import { Rental, RentalStatus } from '../models/Rental';
 
-
 const rentals: Rental[] = [];
 
 class RentalRepository {
@@ -8,7 +7,15 @@ class RentalRepository {
     return rentals;
   }
 
-  getRentalById(id: number): Rental | undefined {
+  getRentalsByCustomer(customerId: string): Rental[] {
+    return rentals.filter((rental) => rental.customer.id === customerId);
+  }
+
+  getRentalsByPlate(plate: string): Rental[] {
+    return rentals.filter((rental) => rental.vehicle.plate === plate);
+  }
+
+  getRentalById(id: string): Rental | undefined {
     return rentals.find((rental) => rental.id === id);
   }
 
@@ -18,8 +25,8 @@ class RentalRepository {
     return newRental;
   }
 
-  updateRentalStatus(id: number, newStatus: RentalStatus): void {
-    const rental = this.getRentalById(id);
+  updateRentalStatus(id: string, newStatus: RentalStatus): void {
+    const rental = rentals.find((r) => r.id === id);
     if (rental) {
       rental.status = newStatus;
     }

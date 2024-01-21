@@ -3,35 +3,51 @@ import { Vehicle } from '../models/Vehicle';
 import { Customer } from '../models/Customer';
 import { rentalRepository } from '../repositories/RentalRepository';
 import { vehicleRepository } from '../repositories/VehicleRepository';
+import { customerRepository } from '../repositories/CustomerRepository';
 import { v4 as uuidv4 } from 'uuid';
 
 class RentalService {
-  rentVehicle(customer: Customer, vehicle: Vehicle, startDate: Date, endDate: Date): Rental {
-    const isVehicleAvailable = rentalRepository.isVehicleAvailable(vehicle.plate, startDate, endDate);
-    if (!isVehicleAvailable) {
-      throw new Error('Vehicle is not available for the specified period');
+
+  getAllRentals() {
+        return rentalRepository.getAllRentals();
+      }
+    
+    rentVehicle(customer: Customer, vehicle: Vehicle, startDate: Date, endDate: Date): Rental {
+        const existingCustomer = customerRepository.getCustomerById(customer.id);
+        const existingVehicle = vehicleRepository.getVehicleByPlate(vehicle.plate);
+      
+        if (!existingCustomer) {
+          throw new Error('Cliente não encontrado');
+        }
+      
+        if (!existingVehicle) {
+          throw new Error('Veículo não encontrado');
+        }
+      
+        const isVehicleAvailable = rentalRepository.isVehicleAvailable(existingVehicle.plate, startDate, endDate);
+      
+        if (!isVehicleAvailable) {
+          throw new Error('Veículo não disponível para o período');
+        }
+      
+        const rentalDays = this.calculateRentalDays(startDate, endDate);
+        const rentalAmount = this.calculateRentalAmount(existingVehicle.hourlyRate, rentalDays, startDate, endDate);
+      
+        const rental: Rental = {
+          id: uuidv4(), 
+          customer: existingCustomer,
+          vehicle: existingVehicle,
+          startDate,
+          endDate,
+          rentalDays,
+          rentalAmount,
+          status: RentalStatus.PENDING,
+        };
+      
+        rentalRepository.createRental(rental);
+      
+        return rental;
     }
-
-    const rentalDays = this.calculateRentalDays(startDate, endDate);
-    const rentalAmount = this.calculateRentalAmount(vehicle.hourlyRate, rentalDays, startDate, endDate);
-
-
-    const rental: Rental = {
-      id: uuidv4(), 
-      customer,
-      vehicle,
-      startDate,
-      endDate,
-      rentalDays,
-      rentalAmount,
-      status: RentalStatus.PENDING,
-    };
-
-    rentalRepository.createRental(rental);
-    vehicleRepository.updateVehicleStatus(vehicle.plate, false);
-
-    return rental;
-  }
 
   private calculateRentalDays(startDate: Date, endDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000;
@@ -46,6 +62,22 @@ class RentalService {
   
     return hourlyRate * roundedHours * rentalDays;
   }
+
+
+  initRental(rentalId: string): void {
+    const rental = rentalRepository.getRentalById(rentalId);
+    if (!rental) {
+      throw new Error('Aluguel não encontrado');
+    }
+  
+    if (rental.status !== RentalStatus.PENDING) {
+      throw new Error('Status do Aluguel inválido');
+    }
+  
+    rentalRepository.updateRentalStatus(rentalId, RentalStatus.ACTIVE);
+    vehicleRepository.updateVehicleStatus(rental.vehicle.plate, false);
+  }
+  
   
 }
 

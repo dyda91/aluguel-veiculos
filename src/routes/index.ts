@@ -38,5 +38,7 @@ routes.get('/vehicles/:plate', vehicleController.getVehicleByPlate);
 
 //Rentals
 routes.post('/rentals', rentalController.rentVehicle);
+routes.get('/rentals', rentalController.getAllRentals);
+routes.post('/rentals/init/:id', rentalController.initRental);
 
 export { routes };
