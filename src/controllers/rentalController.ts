@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { rentalService } from '../services/RentalService';
 import { customerService } from '../services/CustumerService';
-import { RentalStatus } from '../models/Rental';
 import { vehicleService } from '../services/VehicleService';
 
 class RentalController {
@@ -18,7 +17,7 @@ class RentalController {
   }
 
   async rentVehicle(req: Request, res: Response, next: NextFunction) {
-    const { customerId, vehiclePlate, startDate, endDate } = req.body;
+    const { customerId, vehiclePlate, startDate, endDate } = req.body;  
     console.log(req.body);
   
     if (!customerId || !vehiclePlate || !startDate || !endDate) {
@@ -50,19 +49,31 @@ class RentalController {
   }
 
 
-  async initRental(req: Request, res: Response, next: NextFunction) {
+  async startRental(req: Request, res: Response, next: NextFunction) {
     const rentalId = req.params.id;
   
     try {
-      rentalService.initRental(rentalId);
+      rentalService.startRental(rentalId);
       res.status(200).json({ message: 'Veículo retirado da locadora pelo cliente' });
       next();
     } catch (error) {
-      res.status(400).json({ error: error.message});
+      res.status(400).json({ error: error.message });
       next();
     }
   }
-  
+
+  async completeRental(req: Request, res: Response, next: NextFunction) {
+    const rentalId = req.params.id;
+
+    try {
+      rentalService.completeRental(rentalId);
+      res.status(200).json({ message: 'Devolução do veículo concluída com sucesso' });
+      next();
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+      next();
+    }
+  }
 }
 
 const rentalController = new RentalController();
