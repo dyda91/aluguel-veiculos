@@ -51,7 +51,7 @@ class RentalService {
     return rental;
   }
 
-  startRental(rentalId: string): void {
+  startRental(rentalId: string, startDate: Date): void {
     const rental = rentalRepository.getRentalById(rentalId);
     if (!rental) {
       throw new Error('Aluguel não encontrado');
@@ -61,7 +61,12 @@ class RentalService {
       throw new Error('Status do Aluguel inválido');
     }
 
+    const rentalDays = this.calculateRentalDays(startDate, rental.endDate);
+    const rentalAmount = this.calculateRentalAmount(rental.vehicle.hourlyRate, rentalDays, startDate, rental.endDate);
     rentalRepository.updateRentalStatus(rentalId, RentalStatus.ACTIVE);
+    rentalRepository.updateRentalStartDate(rentalId, startDate);
+    rental.rentalDays = rentalDays;
+    rental.rentalAmount = rentalAmount;
     vehicleRepository.updateVehicleStatus(rental.vehicle.plate, false);
   }
 

@@ -23,11 +23,7 @@ class RentalController {
 
     try {
       const rental = await rentalService.getRentalById(rentalId);
-      if (rental) {
-        res.json(rental);
-      } else {
-        res.status(404).json({ error: 'Aluguel não encontrado' });
-      }
+      res.json(rental);
       next();
     } catch (error) {
       console.error(error);
@@ -71,10 +67,12 @@ class RentalController {
   }
 
   async startRental(req: Request, res: Response, next: NextFunction) {
-    const rentalId = req.params.id;
+    // const { rentalId } = req.params;
+    const { id, startDate} = req.body;
 
     try {
-      rentalService.startRental(rentalId);
+      const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
+      rentalService.startRental(id, formattedStartDate);
       res.status(200).json({ message: 'Veículo retirado da locadora pelo cliente' });
       next();
     } catch (error) {
@@ -84,12 +82,12 @@ class RentalController {
   }
 
   async completeRental(req: Request, res: Response, next: NextFunction) {
-    const rentalId = req.params.id;
-    const { endDate } = req.body;
+    // const { rentalId } = req.params;
+    const { id, endDate } = req.body;
 
     try {
       const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalService.completeRental(rentalId, formattedEndDate);
+      rentalService.completeRental(id, formattedEndDate);
       res.status(200).json({ message: 'Devolução do veículo concluída com sucesso' });
       next();
     } catch (error) {

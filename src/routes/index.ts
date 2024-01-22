@@ -8,6 +8,7 @@ import { emailMiddleware } from '../middleware/EmailMiddleware';
 import { cpf_Middleware } from '../middleware/CPF_Middleware';
 import { licenseCategoryMiddleware } from '../middleware/LicenseCategoryMiddleware';
 import { vehicleCategoryMiddleware } from '../middleware/VehicleCategoryMiddleware';
+import { existingRentalMiddleware } from '../middleware/ExistingRentalMiddleware';
 
 const routes = Router();
 
@@ -34,10 +35,10 @@ routes.post('/vehicles',
 
 //Rentals
 routes.get('/rentals', rentalController.getAllRentals);
-routes.get('/rentals/:id', rentalController.getRentalById);
+routes.get('/rentals/:id', existingRentalMiddleware.check, rentalController.getRentalById);
 
 routes.post('/rentals', rentalController.rentVehicle);
-routes.post('/rentals/start/:id', rentalController.startRental);
-routes.post('/rentals/complete/:id', rentalController.completeRental);
+routes.post('/rentals/start', existingRentalMiddleware.check, rentalController.startRental);
+routes.post('/rentals/complete', existingRentalMiddleware.check, rentalController.completeRental);
 
 export { routes };
