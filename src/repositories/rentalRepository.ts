@@ -28,8 +28,17 @@ class RentalRepository {
 
   updateRentalStatus(id: string, newStatus: RentalStatus): void {
     const rental = this.rentals.find((r) => r.id === id);
+    
     if (rental) {
       rental.status = newStatus;
+      console.log(rental);
+    }
+  }
+
+  updateRentalEndDate(id:string, newEndDate: Date): void {
+    const rental = this.rentals.find((r) => r.id === id);
+    if (rental) {
+      rental.endDate = newEndDate;
     }
   }
 

@@ -65,7 +65,7 @@ class RentalService {
     vehicleRepository.updateVehicleStatus(rental.vehicle.plate, false);
   }
 
-  completeRental(rentalId: string): void {
+  completeRental(rentalId: string, endDate: Date): void {
     const rental = rentalRepository.getRentalById(rentalId);
 
     if (!rental) {
@@ -76,7 +76,12 @@ class RentalService {
       throw new Error('Somente alugueis ativos podem ser concluídos');
     }
 
+    const rentalDays = this.calculateRentalDays(rental.startDate, endDate);
+    const rentalAmount = this.calculateRentalAmount(rental.vehicle.hourlyRate, rentalDays, rental.startDate, endDate);
     rentalRepository.updateRentalStatus(rentalId, RentalStatus.COMPLETED);
+    rentalRepository.updateRentalEndDate(rentalId, endDate);
+    rental.rentalDays = rentalDays;
+    rental.rentalAmount = rentalAmount;
     vehicleRepository.updateVehicleStatus(rental.vehicle.plate, true);
   }
 
