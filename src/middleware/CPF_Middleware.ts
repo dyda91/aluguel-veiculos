@@ -6,7 +6,7 @@ class CPF_Middleware {
     const { cpf } = req.body;
 
     try {
-      const existingCustomer = customerRepository.getAllCustomers().find(
+      const existingCustomer = await customerRepository.getAllCustomers().find(
         (customer) => customer.cpf === cpf
       );
 
@@ -22,6 +22,7 @@ class CPF_Middleware {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
     }
   }
 }

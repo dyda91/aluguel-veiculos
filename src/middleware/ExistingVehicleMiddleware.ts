@@ -13,7 +13,7 @@ class ExistingVehicleMiddleware {
     };
 
     try {
-      const existingVehicle = vehicleRepository.getVehicleByPlate(plate);
+      const existingVehicle = await vehicleRepository.getVehicleByPlate(plate);
 
       if (existingVehicle) {
         return res.status(400).json({ error: 'Veículo já cadastrado' });
@@ -27,6 +27,7 @@ class ExistingVehicleMiddleware {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
     }
   }
 }

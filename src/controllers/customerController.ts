@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerService } from '../services/CustumerService';
+import { customerService } from '../services/CustomerService';
 
 class CustomerController {
   async getAllCustomers(req: Request, res: Response, next: NextFunction) {
