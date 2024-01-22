@@ -6,7 +6,7 @@ class EmailMiddleware {
     const { email } = req.body;
 
     try {
-      const existingCustomer = customerRepository.getAllCustomers().find(
+      const existingCustomer = await customerRepository.getAllCustomers().find(
         (customer) => customer.email === email
       );
 
@@ -18,6 +18,7 @@ class EmailMiddleware {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
     }
   }
 }

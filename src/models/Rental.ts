@@ -10,7 +10,7 @@ enum RentalStatus {
 
 
 interface Rental {
-  id: number;
+  id: string;
   customer: Customer;
   vehicle: Vehicle;
   startDate: Date;

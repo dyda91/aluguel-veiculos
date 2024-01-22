@@ -1,32 +1,40 @@
 import { Rental, RentalStatus } from '../models/Rental';
 
-
-const rentals: Rental[] = [];
-
 class RentalRepository {
+  private rentals: Rental[] = [];
+
   getAllRentals(): Rental[] {
-    return rentals;
+    return this.rentals;
   }
 
-  getRentalById(id: number): Rental | undefined {
-    return rentals.find((rental) => rental.id === id);
+  getRentalsByCustomer(customerId: string): Rental[] {
+    return this.rentals.filter((rental) => rental.customer.id === customerId);
+  }
+
+  getRentalsByPlate(plate: string): Rental[] {
+    return this.rentals.filter((rental) => rental.vehicle.plate === plate);
+  }
+
+  getRentalById(id: string): Rental | undefined {
+    return this.rentals.find((rental) => rental.id === id);
   }
 
   createRental(newRental: Rental): Rental {
     newRental.status = RentalStatus.PENDING;
-    rentals.push(newRental);
+    this.rentals.push(newRental);
+    console.log(newRental)
     return newRental;
   }
 
-  updateRentalStatus(id: number, newStatus: RentalStatus): void {
-    const rental = this.getRentalById(id);
+  updateRentalStatus(id: string, newStatus: RentalStatus): void {
+    const rental = this.rentals.find((r) => r.id === id);
     if (rental) {
       rental.status = newStatus;
     }
   }
 
   isVehicleAvailable(plate: string, startDate: Date, endDate: Date): boolean {
-    const overlappingRentals = rentals.filter(
+    const overlappingRentals = this.rentals.filter(
       (rental) =>
         rental.vehicle.plate === plate &&
         this.areDatesOverlapping(startDate, endDate, rental.startDate, rental.endDate)

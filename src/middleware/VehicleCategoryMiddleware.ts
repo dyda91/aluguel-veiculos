@@ -2,19 +2,20 @@ import { Request, Response, NextFunction } from 'express';
 import { VehicleCategory } from '../models/Vehicle';
 
 class VehicleCategoryMiddleware {
-  async validateCategory(req: Request, res: Response, next: NextFunction) {
+  validateCategory(req: Request, res: Response, next: NextFunction) {
     const { category } = req.body;
 
     try {
-        if (!Object.values(VehicleCategory).includes(category)) {
-            return res.status(400).json({ error: 'Categoria inválida' });
-        }
+      if (!Object.values(VehicleCategory).includes(category)) {
+        return res.status(400).json({ error: 'Categoria inválida' });
+      }
 
-        next();
+      next();
     } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
-  } 
+      console.error(error);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
+    }
   }
 }
 

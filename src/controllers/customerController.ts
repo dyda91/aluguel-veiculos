@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerService } from '../services/CustumerService';
+import { customerService } from '../services/CustomerService';
 
 class CustomerController {
   async getAllCustomers(req: Request, res: Response, next: NextFunction) {
     try {
       const customers = await customerService.getAllCustomers(); 
       res.send(customers);
+      next();
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
     }
   }
 
@@ -22,9 +24,11 @@ class CustomerController {
       } else {
         res.status(404).json({ error: 'Cliente não encontrado' });
       }
+      next();
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
     }
   }
 
@@ -32,7 +36,8 @@ class CustomerController {
     const { name, cpf, email, phone, licenseCategory } = req.body;
 
     if (!name || !cpf || !email || !phone || !licenseCategory) {
-      return res.status(400).json({ error: 'Necessário fornecer todos os dados' });
+      res.status(400).json({ error: 'Necessário fornecer todos os dados' });
+      return next();
     }
 
     try {
@@ -44,9 +49,11 @@ class CustomerController {
         licenseCategory
       });
       res.status(201).json(newCustomer);
+      next();
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
     }
   }
 }
