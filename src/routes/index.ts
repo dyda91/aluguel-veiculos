@@ -38,7 +38,15 @@ routes.get('/rentals', rentalController.getAllRentals);
 routes.get('/rentals/:id', existingRentalMiddleware.check, rentalController.getRentalById);
 
 routes.post('/rentals', rentalController.rentVehicle);
-routes.post('/rentals/start', existingRentalMiddleware.check, rentalController.startRental);
-routes.post('/rentals/complete', existingRentalMiddleware.check, rentalController.completeRental);
+
+routes.post('/rentals/start',
+    existingRentalMiddleware.check,
+    rentalController.startRental
+);
+
+routes.post('/rentals/complete',
+    existingRentalMiddleware.check,
+    rentalController.completeRental
+);
 
 export { routes };
