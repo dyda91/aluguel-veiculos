@@ -11,6 +11,10 @@ class CustomerRepository {
     return this.customers.find((customer) => customer.id === customerId);
   }
 
+  getCustomerByEmail(customerEmail: string): Customer |undefined {
+    return this.customers.find((customer) => customer.email === customerEmail);
+  }
+
   createCustomer(newCustomer: Customer): Customer {
     this.customers.push(newCustomer);
     console.log(newCustomer)

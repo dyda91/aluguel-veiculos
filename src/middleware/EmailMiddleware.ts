@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerRepository } from '../repositories/CustomerRepository';
+import { customerRepository } from '../repositories/customerRepository';
 
 class EmailMiddleware {
   async validateEmail(req: Request, res: Response, next: NextFunction) {

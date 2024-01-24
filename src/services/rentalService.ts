@@ -1,10 +1,11 @@
 import { Rental, RentalStatus } from '../models/Rental';
 import { Vehicle } from '../models/Vehicle';
 import { Customer } from '../models/Customer';
-import { rentalRepository } from '../repositories/RentalRepository';
-import { vehicleRepository } from '../repositories/VehicleRepository';
-import { customerRepository } from '../repositories/CustomerRepository';
+import { rentalRepository } from '../repositories/rentalRepository';
+import { vehicleRepository } from '../repositories/vehicleRepository';
+import { customerRepository } from '../repositories/customerRepository';
 import { v4 as uuidv4 } from 'uuid';
+import { AppError } from '../errors/AppError';
 
 class RentalService {
   getAllRentals() {
@@ -21,15 +22,15 @@ class RentalService {
     const isVehicleAvailable = rentalRepository.isVehicleAvailable(existingVehicle.plate, startDate, endDate);
 
     if (!existingCustomer) {
-      throw new Error('Cliente não encontrado');
+      throw new AppError('Cliente não encontrado');
     }
 
     if (!existingVehicle) {
-      throw new Error('Veículo não encontrado');
+      throw new AppError('Veículo não encontrado');
     }
     
     if (!isVehicleAvailable) {
-      throw new Error('Veículo não disponível para o período');
+      throw new AppError('Veículo não disponível para o período');
     }
 
     const rentalDays = this.calculateRentalDays(startDate, endDate);
@@ -53,12 +54,9 @@ class RentalService {
 
   startRental(rentalId: string, startDate: Date): void {
     const rental = rentalRepository.getRentalById(rentalId);
-    if (!rental) {
-      throw new Error('Aluguel não encontrado');
-    }
 
     if (rental.status !== RentalStatus.PENDING) {
-      throw new Error('Status do Aluguel inválido');
+      throw new AppError('Status do Aluguel inválido');
     }
 
     const rentalDays = this.calculateRentalDays(startDate, rental.endDate);
@@ -73,12 +71,8 @@ class RentalService {
   completeRental(rentalId: string, endDate: Date): void {
     const rental = rentalRepository.getRentalById(rentalId);
 
-    if (!rental) {
-      throw new Error('Aluguel não encontrado');
-    }
-
     if (rental.status !== RentalStatus.ACTIVE) {
-      throw new Error('Somente alugueis ativos podem ser concluídos');
+      throw new AppError('Somente alugueis ativos podem ser concluídos');
     }
 
     const rentalDays = this.calculateRentalDays(rental.startDate, endDate);

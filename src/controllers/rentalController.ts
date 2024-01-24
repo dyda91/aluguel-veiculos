@@ -67,8 +67,7 @@ class RentalController {
   }
 
   async startRental(req: Request, res: Response, next: NextFunction) {
-    // const { rentalId } = req.params;
-    const { id, startDate} = req.body;
+    const { id, startDate } = req.body;
 
     try {
       const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
@@ -82,7 +81,6 @@ class RentalController {
   }
 
   async completeRental(req: Request, res: Response, next: NextFunction) {
-    // const { rentalId } = req.params;
     const { id, endDate } = req.body;
 
     try {

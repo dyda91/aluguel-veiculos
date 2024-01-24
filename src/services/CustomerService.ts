@@ -1,6 +1,7 @@
-import { customerRepository } from '../repositories/CustomerRepository';
+import { customerRepository } from '../repositories/customerRepository';
 import { Customer, LicenseCategory } from '../models/Customer';
 import { v4 as uuidv4 } from 'uuid';
+import { encrypt } from '../helpers/CryptHelper';
 
 class CustomerService {
   getAllCustomers() {
@@ -11,22 +12,25 @@ class CustomerService {
     return customerRepository.getCustomerById(customerId);
   }
 
-  createCustomer(customerData: { 
-    name: string; 
-    cpf: string; 
-    email: string; 
-    phone: string; 
+  createCustomer(
+    name: string,
+    cpf: string,
+    email: string,
+    password: string,
+    phone: string,
     licenseCategory: LicenseCategory
-  }): Customer {
-    const newCustomer = new Customer(
-      uuidv4(),
-      customerData.name,
-      customerData.cpf,
-      customerData.email,
-      customerData.phone,
-      customerData.licenseCategory
-    );
-    customerRepository.createCustomer(newCustomer); 
+  ) {
+    const encryptPassword = encrypt(password);
+    const newCustomer: Customer = {
+      id: uuidv4(),
+      name,
+      cpf,
+      email,
+      password: encryptPassword,
+      phone,
+      licenseCategory
+    };
+    customerRepository.createCustomer(newCustomer);
     return newCustomer;
   }
 }
