@@ -23,7 +23,11 @@ class RentalController {
 
     try {
       const rental = await rentalService.getRentalById(rentalId);
-      res.json(rental);
+      if (rental) {
+        res.json(rental);
+      } else {
+        res.status(404).json({ error: 'Aluguel não encontrado' });
+      }
       next();
     } catch (error) {
       console.error(error);
@@ -33,30 +37,28 @@ class RentalController {
   }
 
   async rentVehicle(req: Request, res: Response, next: NextFunction) {
-    const { customerId, vehiclePlate, startDate, endDate } = req.body;
-
+    const { customerId, vehiclePlate, startDate, endDate } = req.body;  
+    console.log(req.body);
+  
     if (!customerId || !vehiclePlate || !startDate || !endDate) {
       res.status(400).json({ error: 'Necessário preencher todos os campos' });
       return next();
     }
-
+  
     try {
       const customer = await customerService.getCustomerById(customerId);
       if (!customer) {
         res.status(404).json({ error: 'Cliente não encontrado' });
         return next();
       }
-
+  
       const vehicle = await vehicleService.getVehicleByPlate(vehiclePlate);
       if (!vehicle) {
         res.status(404).json({ error: 'Veículo não encontrado' });
         return next();
       }
 
-      const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-
-      const rental = await rentalService.rentVehicle(customer, vehicle, formattedStartDate, formattedEndDate);
+      const rental = rentalService.rentVehicle(customer, vehicle, new Date(startDate), new Date(endDate));
       res.status(201).json(rental);
       next();
     } catch (error) {
@@ -67,12 +69,10 @@ class RentalController {
   }
 
   async startRental(req: Request, res: Response, next: NextFunction) {
-    // const { rentalId } = req.params;
-    const { id, startDate} = req.body;
+    const rentalId = req.params.id;
 
     try {
-      const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalService.startRental(id, formattedStartDate);
+      rentalService.startRental(rentalId);
       res.status(200).json({ message: 'Veículo retirado da locadora pelo cliente' });
       next();
     } catch (error) {
@@ -82,12 +82,12 @@ class RentalController {
   }
 
   async completeRental(req: Request, res: Response, next: NextFunction) {
-    // const { rentalId } = req.params;
-    const { id, endDate } = req.body;
+    const rentalId = req.params.id;
+    const { endDate } = req.body;
 
     try {
       const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalService.completeRental(id, formattedEndDate);
+      rentalService.completeRental(rentalId, formattedEndDate);
       res.status(200).json({ message: 'Devolução do veículo concluída com sucesso' });
       next();
     } catch (error) {
