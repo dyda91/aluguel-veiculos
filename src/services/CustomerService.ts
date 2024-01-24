@@ -2,6 +2,7 @@ import { customerRepository } from '../repositories/customerRepository';
 import { Customer, LicenseCategory } from '../models/Customer';
 import { v4 as uuidv4 } from 'uuid';
 import { encrypt } from '../helpers/CryptHelper';
+import bcrypt from 'bcrypt';
 
 class CustomerService {
   getAllCustomers() {
@@ -21,10 +22,11 @@ class CustomerService {
     licenseCategory: LicenseCategory
   ) {
     const encryptPassword = encrypt(password);
+    const cpf_Cripto = bcrypt.hashSync(cpf, 11)
     const newCustomer: Customer = {
       id: uuidv4(),
       name,
-      cpf,
+      cpf: cpf_Cripto,
       email,
       password: encryptPassword,
       phone,
