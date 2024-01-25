@@ -8,12 +8,8 @@ enum RentalStatus {
   CANCELLED = 'CANCELLED',
 }
 
-
-<<<<<<< HEAD
-interface Rental {
-=======
 class Rental {
->>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
+  
   id: string;
   customer: Customer;
   vehicle: Vehicle;

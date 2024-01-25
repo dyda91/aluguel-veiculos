@@ -1,10 +1,5 @@
 import { Rental, RentalStatus } from '../models/Rental';
 
-<<<<<<< HEAD
-const rentals: Rental[] = [];
-
-=======
->>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
 class RentalRepository {
   private rentals: Rental[] = [];
 
@@ -13,17 +8,6 @@ class RentalRepository {
   }
 
   getRentalsByCustomer(customerId: string): Rental[] {
-<<<<<<< HEAD
-    return rentals.filter((rental) => rental.customer.id === customerId);
-  }
-
-  getRentalsByPlate(plate: string): Rental[] {
-    return rentals.filter((rental) => rental.vehicle.plate === plate);
-  }
-
-  getRentalById(id: string): Rental | undefined {
-    return rentals.find((rental) => rental.id === id);
-=======
     return this.rentals.filter((rental) => rental.customer.id === customerId);
   }
 
@@ -33,7 +17,6 @@ class RentalRepository {
 
   getRentalById(id: string): Rental | undefined {
     return this.rentals.find((rental) => rental.id === id);
->>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
   }
 
   createRental(newRental: Rental): Rental {
@@ -44,12 +27,8 @@ class RentalRepository {
   }
 
   updateRentalStatus(id: string, newStatus: RentalStatus): void {
-<<<<<<< HEAD
-    const rental = rentals.find((r) => r.id === id);
-=======
     const rental = this.rentals.find((r) => r.id === id);
     
->>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
     if (rental) {
       rental.status = newStatus;
       console.log(rental);

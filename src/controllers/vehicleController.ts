@@ -34,10 +34,6 @@ class VehicleController {
 
   async createVehicle(req: Request, res: Response, next: NextFunction) {
     const { plate, manufacturer, model, year, kilometers, category, hourlyRate } = req.body;
-<<<<<<< HEAD
-    console.log(req.body);
-=======
->>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
 
     if (!plate || !manufacturer || !model || !year || !kilometers || !category || hourlyRate === undefined) {
       res.status(400).json({ error: 'Necessário preencher todos os campos' });

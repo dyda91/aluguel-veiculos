@@ -33,21 +33,22 @@ class CustomerController {
   }
 
   async createCustomer(req: Request, res: Response, next: NextFunction) {
-    const { name, cpf, email, phone, licenseCategory } = req.body;
+    const { name, cpf, email, password, phone, licenseCategory } = req.body;
 
-    if (!name || !cpf || !email || !phone || !licenseCategory) {
+    if (!name || !cpf || !email || !password ||!phone || !licenseCategory) {
       res.status(400).json({ error: 'Necessário fornecer todos os dados' });
       return next();
     }
 
     try {
-      const newCustomer = await customerService.createCustomer({ 
-        name,
-        cpf,
-        email,
-        phone,
+      const newCustomer = await customerService.createCustomer(
+        name, 
+        cpf, 
+        email, 
+        password, 
+        phone, 
         licenseCategory
-      });
+      );
       res.status(201).json(newCustomer);
       next();
     } catch (error) {

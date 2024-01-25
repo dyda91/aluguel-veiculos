@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { vehicleRepository } from '../repositories/VehicleRepository';
 
 class ExistingVehicleMiddleware {
-  async checkExistingVehicle(req: Request, res: Response, next: NextFunction) {
+  async check(req: Request, res: Response, next: NextFunction) {
     const plate = req.body.plate;
 
     const isValidPlateFormat = (plate: string): boolean => {
