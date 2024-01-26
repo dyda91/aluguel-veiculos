@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { loginCustomerService } from '../services/LoginService';
-import { customerRepository } from '../repositories/customerRepository';
+import { customerRepository } from '../repositories/CustomerRepository';
 import { encrypt } from '../helpers/CryptHelper';
 
 class LoginController {

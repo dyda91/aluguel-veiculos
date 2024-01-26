@@ -4,6 +4,6 @@ import { loginController } from "../controllers/LoginController";
 
 const loginRoutes = Router();
 
-loginRoutes.post('/customers/login', loginController.signIn);
+loginRoutes.post('/login', loginController.signIn);
 
 export { loginRoutes };
