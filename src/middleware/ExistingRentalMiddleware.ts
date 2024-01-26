@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { rentalRepository } from '../repositories/rentalRepository';
+import { rentalRepository } from '../repositories/RentalRepository';
 
 class ExistingRentalMiddleware {
   async check(req: Request, res: Response, next: NextFunction) {

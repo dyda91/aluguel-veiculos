@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { vehicleRepository } from '../repositories/vehicleRepository';
+import { vehicleRepository } from '../repositories/VehicleRepository';
 
 class ExistingVehicleMiddleware {
   async check(req: Request, res: Response, next: NextFunction) {

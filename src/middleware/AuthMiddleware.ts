@@ -20,7 +20,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     
     jwt.verify(accessToken, secret);
     next();
-  } catch (err) {
-    res.status(401).send({ mensagem: err.message });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+    next(error);
   }
 }

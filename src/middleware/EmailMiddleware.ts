@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerRepository } from '../repositories/customerRepository';
+import { customerRepository } from '../repositories/CustomerRepository';
+import { employeeRepository } from '../repositories/EmployeeRepository';
 
 class EmailMiddleware {
   async validateEmail(req: Request, res: Response, next: NextFunction) {
@@ -9,6 +10,14 @@ class EmailMiddleware {
       const existingCustomer = await customerRepository.getAllCustomers().find(
         (customer) => customer.email === email
       );
+
+      const existingEmployee = await employeeRepository.getAllEmployees().find(
+        (employee) => employee.email === email
+      );
+
+      if(existingEmployee) {
+        return res.status(400).json({ error: 'Email já cadastrado' });
+      }
 
       if (existingCustomer) {
         return res.status(400).json({ error: 'Email já cadastrado' });
