@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import { customerRoutes, rentalRoutes, vehicleRoutes, loginRoutes, employeeRoutes } from './routes';
+import { customerRoutes, rentalRoutes, vehicleRoutes, loginRoutes, employeeRoutes, passwordRoutes } from './routes';
 
 const port = process.env.PORT!;
 const app = express();
@@ -13,6 +13,7 @@ app.use(rentalRoutes);
 app.use(vehicleRoutes);
 app.use(loginRoutes);
 app.use(employeeRoutes);
+app.use(passwordRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
