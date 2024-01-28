@@ -1,4 +1,4 @@
-import { customerRepository } from '../repositories/customerRepository';
+import { customerRepository } from '../repositories/CustomerRepository';
 import { Customer, LicenseCategory } from '../models/Customer';
 import { v4 as uuidv4 } from 'uuid';
 import { encrypt } from '../helpers/CryptHelper';

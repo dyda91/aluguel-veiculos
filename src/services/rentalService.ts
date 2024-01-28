@@ -1,9 +1,9 @@
 import { Rental, RentalStatus } from '../models/Rental';
 import { Vehicle } from '../models/Vehicle';
 import { Customer } from '../models/Customer';
-import { rentalRepository } from '../repositories/rentalRepository';
-import { vehicleRepository } from '../repositories/vehicleRepository';
-import { customerRepository } from '../repositories/customerRepository';
+import { rentalRepository } from '../repositories/RentalRepository';
+import { vehicleRepository } from '../repositories/VehicleRepository';
+import { customerRepository } from '../repositories/CustomerRepository';
 import { v4 as uuidv4 } from 'uuid';
 import { AppError } from '../errors/AppError';
 
@@ -103,4 +103,3 @@ class RentalService {
 const rentalService = new RentalService();
 
 export { rentalService };
-

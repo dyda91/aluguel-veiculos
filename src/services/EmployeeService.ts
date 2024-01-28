@@ -1,7 +1,7 @@
 import { Employee } from '../models/Employee';
+import { LicenseCategory } from '../models/Customer';
 import { EmployeePosition } from '../models/enums/EmployeePosition';
 import { employeeRepository } from '../repositories/EmployeeRepository';
-import { LicenseCategory } from '../models/Customer';
 import { v4 as uuidv4 } from 'uuid';
 import { encrypt } from '../helpers/CryptHelper';
 import bcrypt from 'bcrypt';

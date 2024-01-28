@@ -4,7 +4,7 @@ import { employeeService } from '../services/EmployeeService';
 class EmployeeController {
   async getAllEmployees(req: Request, res: Response, next: NextFunction) {
     try {
-      const employees = await employeeService.getAllEmployees(); 
+      const employees = await employeeService.getAllEmployees();
       res.send(employees);
       next();
     } catch (error) {
@@ -15,15 +15,16 @@ class EmployeeController {
   }
 
   async getEmployeeById(req: Request, res: Response, next: NextFunction) {
-    const employeeId = req.params.id;
-
     try {
+      const employeeId = req.params.id;
       const employee = await employeeService.getEmployeeById(employeeId);
+
       if (employee) {
         res.json(employee);
       } else {
         res.status(404).json({ error: 'Colaborador não encontrado' });
       }
+
       next();
     } catch (error) {
       console.error(error);
@@ -33,20 +34,20 @@ class EmployeeController {
   }
 
   async createEmployee(req: Request, res: Response, next: NextFunction) {
-    const { name, cpf, email, password, phone, licenseCategory, position } = req.body;
-
-    if (!name || !cpf || !email || !password ||!phone || !licenseCategory || !position) {
-      res.status(400).json({ error: 'Necessário fornecer todos os dados' });
-      return next();
-    }
-
     try {
+      const { name, cpf, email, password, phone, licenseCategory, position } = req.body;
+
+      if (!name || !cpf || !email || !password || !phone || !licenseCategory || !position) {
+        res.status(400).json({ error: 'Necessário fornecer todos os dados' });
+        return next();
+      }
+      
       const newEmployee = await employeeService.createEmployee(
-        name, 
-        cpf, 
-        email, 
-        password, 
-        phone, 
+        name,
+        cpf,
+        email,
+        password,
+        phone,
         licenseCategory,
         position
       );

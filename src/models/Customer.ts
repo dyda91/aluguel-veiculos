@@ -1,6 +1,5 @@
 import { LicenseCategory } from "./enums/LicenseCategory";
 
-
 class Customer {
   id: string; 
   name: string;

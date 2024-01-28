@@ -3,20 +3,26 @@ import { vehicleController } from "../controllers/VehicleController";
 import { authMiddleware } from "../middleware/AuthMiddleware";
 import { existingVehicleMiddleware } from "../middleware/ExistingVehicleMiddleware";
 import { vehicleCategoryMiddleware } from "../middleware/VehicleCategoryMiddleware";
-
-
+import { validPlateFormat } from "../middleware/ValidPlateFormat";
 
 const vehicleRoutes = Router();
 
-vehicleRoutes.get('/vehicles', authMiddleware, vehicleController.getAllVehicles);
-vehicleRoutes.get('/vehicles/:plate', authMiddleware, vehicleController.getVehicleByPlate);
-vehicleRoutes.get('/vehicles/isAvailible', authMiddleware, vehicleController.getVehiclesIsAvaliable);
-// vehicleRoutes.get('/vehicles/:category', authMiddleware, vehicleController.getVehiclesByCategoria);
+// Get
+vehicleRoutes.get('/vehicles',
+    authMiddleware,
+    vehicleController.getAllVehicles
+);
 
+vehicleRoutes.get('/vehicles/:plate',
+    authMiddleware,
+    vehicleController.getVehicleByPlate
+);
 
+// Post
 vehicleRoutes.post('/vehicles',
     authMiddleware,
     existingVehicleMiddleware.check,
+    validPlateFormat.validatePlate,
     vehicleCategoryMiddleware.validateCategory,
     vehicleController.createVehicle
 );

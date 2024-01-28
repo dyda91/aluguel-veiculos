@@ -15,6 +15,10 @@ class EmployeeRepository {
     return this.employees.find((employee) => employee.email === employeeEmail);
   }
 
+  getEmployeeByPassword(employeePassword: string): Employee |undefined {
+    return this.employees.find((employee) => employee.email === employeePassword);
+  }
+
   createEmployee(newEmployee: Employee): Employee {
     this.employees.push(newEmployee);
     console.log(newEmployee)

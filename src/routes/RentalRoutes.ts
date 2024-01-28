@@ -3,12 +3,21 @@ import { rentalController } from "../controllers/RentalController";
 import { authMiddleware } from "../middleware/AuthMiddleware";
 import { existingRentalMiddleware } from "../middleware/ExistingRentalMiddleware";
 
-
 const rentalRoutes = Router();
 
-rentalRoutes.get('/rentals', authMiddleware, rentalController.getAllRentals);
-rentalRoutes.get('/rentals/:id', authMiddleware, existingRentalMiddleware.check, rentalController.getRentalById);
+// Get
+rentalRoutes.get('/rentals',
+    authMiddleware,
+    rentalController.getAllRentals
+);
 
+rentalRoutes.get('/rentals/:id',
+    authMiddleware,
+    existingRentalMiddleware.check,
+    rentalController.getRentalById
+);
+
+// Post
 rentalRoutes.post('/rentals',
     authMiddleware,
     rentalController.rentVehicle
@@ -26,4 +35,4 @@ rentalRoutes.post('/rentals/complete',
     rentalController.completeRental
 );
 
-export { rentalRoutes};
+export { rentalRoutes };

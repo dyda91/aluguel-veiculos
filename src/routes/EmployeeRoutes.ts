@@ -6,18 +6,28 @@ import { licenseCategoryMiddleware } from '../middleware/LicenseCategoryMiddlewa
 import { authMiddleware } from '../middleware/AuthMiddleware';
 import { employeePositionMiddleware } from '../middleware/EmployeePositionMiddleware';
 
-
 const employeeRoutes = Router();
 
+// Post
 employeeRoutes.post('/employees',
     emailMiddleware.validateEmail,
     cpf_Middleware.validateCPF,
     licenseCategoryMiddleware.validateLicenseCategory,
-    employeePositionMiddleware.check,
+    employeePositionMiddleware.validatePosition,
     employeeController.createEmployee
 );
 
-employeeRoutes.get('/employees', authMiddleware, employeeController.getAllEmployees);
-employeeRoutes.get('/employees/:id', authMiddleware, employeeController.getEmployeeById);
+// Get
+employeeRoutes.get('/employees',
+    authMiddleware,
+    employeeController.getAllEmployees
+);
+
+employeeRoutes.get('/employees/:id',
+    authMiddleware,
+    employeeController.getEmployeeById
+);
+
+;
 
 export { employeeRoutes };

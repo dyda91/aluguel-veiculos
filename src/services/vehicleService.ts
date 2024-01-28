@@ -1,8 +1,7 @@
-import { vehicleRepository } from '../repositories/vehicleRepository';
+import { vehicleRepository } from '../repositories/VehicleRepository';
 import { Vehicle, VehicleCategory } from '../models/Vehicle';
 
 class VehicleService {
-
   getAllVehicles() {
     return vehicleRepository.getAllVehicles();
   }

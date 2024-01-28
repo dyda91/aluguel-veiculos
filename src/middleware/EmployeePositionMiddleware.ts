@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { EmployeePosition } from '../models/enums/EmployeePosition';
 
 class EmployeePositionMiddleware {
-  check(req: Request, res: Response, next: NextFunction) {
+  validatePosition(req: Request, res: Response, next: NextFunction) {
     const { position } = req.body;
 
     try {
