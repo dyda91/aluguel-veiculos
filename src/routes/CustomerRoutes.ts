@@ -4,6 +4,7 @@ import { emailMiddleware } from '../middleware/EmailMiddleware';
 import { cpf_Middleware } from '../middleware/CPF_Middleware';
 import { licenseCategoryMiddleware } from '../middleware/LicenseCategoryMiddleware';
 import { authMiddleware } from '../middleware/AuthMiddleware';
+import { authorizationByAttendantMiddleware } from '../middleware/AuthorizationByAttendantMiddleware';
 
 const customerRoutes = Router();
 
@@ -18,6 +19,7 @@ customerRoutes.post('/customers',
 // Get
 customerRoutes.get('/customers',
     authMiddleware,
+    authorizationByAttendantMiddleware.authorization,
     customerController.getAllCustomers
 );
 

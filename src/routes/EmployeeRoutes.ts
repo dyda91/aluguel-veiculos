@@ -5,6 +5,8 @@ import { cpf_Middleware } from '../middleware/CPF_Middleware';
 import { licenseCategoryMiddleware } from '../middleware/LicenseCategoryMiddleware';
 import { authMiddleware } from '../middleware/AuthMiddleware';
 import { employeePositionMiddleware } from '../middleware/EmployeePositionMiddleware';
+import { authorizationByManagerMiddleware } from '../middleware/AuthorizationByManagerMiddleware';
+import { authorizationByAttendantMiddleware } from '../middleware/AuthorizationByAttendantMiddleware';
 
 const employeeRoutes = Router();
 
@@ -20,11 +22,13 @@ employeeRoutes.post('/employees',
 // Get
 employeeRoutes.get('/employees',
     authMiddleware,
+    authorizationByManagerMiddleware.authorization,
     employeeController.getAllEmployees
 );
 
 employeeRoutes.get('/employees/:id',
     authMiddleware,
+    authorizationByAttendantMiddleware.authorization,
     employeeController.getEmployeeById
 );
 
