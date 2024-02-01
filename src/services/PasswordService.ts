@@ -4,20 +4,17 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 class PasswordService {
-    async forgotPassword({ email, cpf }) {
+    async forgotCustomerPassword({ email, cpf }) {
         const secret = process.env.JWT_SECRET_2!;
-
-        const cpfEmployee = await employeeRepository.getAllEmployees().find((employee) => bcrypt.compareSync(cpf, employee.cpf));
         const cpfCustomer = await customerRepository.getAllCustomers().find((customer) => bcrypt.compareSync(cpf, customer.cpf));
-
-        const emplyoee = await employeeRepository.getEmployeeByEmail(email)
         const customer = await customerRepository.getCustomerByEmail(email);
 
         if (cpfCustomer && customer) {
             const token = jwt.sign(
                 {
-                    email: cpfCustomer.email,
-                    cpf: cpfCustomer.cpf
+                    id: customer.id,
+                    email: customer.email,
+                    cpf: customer.cpf
                 },
                 secret,
                 { expiresIn: '10m' }
@@ -25,12 +22,19 @@ class PasswordService {
 
             return { token };
         }
+    }
+
+    async forgotEmployeePassword({ email, cpf }) {
+        const secret = process.env.JWT_SECRET_2!;
+        const cpfEmployee = await employeeRepository.getAllEmployees().find((employee) => bcrypt.compareSync(cpf, employee.cpf));
+        const emplyoee = await employeeRepository.getEmployeeByEmail(email);
 
         if (cpfEmployee && emplyoee) {
             const token = jwt.sign(
                 {
                     id: emplyoee.id,
                     email: emplyoee.email,
+                    cpf: emplyoee.cpf,
                     position: emplyoee.position
                 },
                 secret,

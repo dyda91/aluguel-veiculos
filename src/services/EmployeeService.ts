@@ -15,6 +15,10 @@ class EmployeeService {
         return employeeRepository.getEmployeeById(employeeId);
     }
 
+    getEmployeeByEmail(email: string) {
+        return employeeRepository.getEmployeeByEmail(email);
+    }
+
     createEmployee(
         name: string,
         cpf: string,
@@ -39,6 +43,21 @@ class EmployeeService {
         employeeRepository.createEmployee(newEmployee);
         return newEmployee;
     }
+
+    passwordEmployeeUpdate(employeeId: string, newPassword: string, confirmNewPassword: string) {
+        const encryptNewPassword = encrypt(newPassword);
+        const encryptConfirmNewPassword = encrypt(confirmNewPassword);
+        
+        if (encryptNewPassword === encryptConfirmNewPassword) {
+          const employeeUpdate = employeeRepository.getEmployeeById(employeeId);
+    
+          if (employeeUpdate) {
+            employeeUpdate.password = encryptConfirmNewPassword;
+            employeeRepository.updatePasswordEmployee(employeeUpdate, encryptNewPassword, encryptConfirmNewPassword);
+            return employeeUpdate;
+          }
+        }
+      }
 }
 
 const employeeService = new EmployeeService();

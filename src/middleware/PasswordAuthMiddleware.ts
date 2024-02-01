@@ -1,28 +1,33 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { AppError } from "../errors/AppError";
 
-export const passwordAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const authorizationHeader = req.header('Authorization');
-    
-    if (!authorizationHeader) {
-      throw new AppError('Token não informado');
-    }
-    
-    if (!authorizationHeader.toLocaleLowerCase().startsWith('bearer ')) {
-      throw new AppError('Token inválido');
-    }
-    
-    const accessToken = authorizationHeader.split(' ')[1];
+class PasswordAuthMiddleware {
+  execute(req: Request, res: Response, next: NextFunction) {
+    try {
+      const authorizationHeader = req.header('Authorization');
 
-    const secret = process.env.JWT_SECRET_2!;
-    
-    jwt.verify(accessToken, secret);
-    next();
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro interno do servidor' });
-    next(error);
+      if (!authorizationHeader) {
+        return res.status(400).json({ error: 'Token não informado' });
+      }
+
+      if (!authorizationHeader.toLocaleLowerCase().startsWith('bearer ')) {
+        return res.status(400).json({ error: 'Token não informado' });
+      }
+
+      const accessToken = authorizationHeader.split(' ')[1];
+
+      const secret = process.env.JWT_SECRET_2!;
+
+      jwt.verify(accessToken, secret);
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+      next(error);
+    }
   }
 }
+
+const passwordAuthMiddleware = new PasswordAuthMiddleware();
+
+export {passwordAuthMiddleware}
