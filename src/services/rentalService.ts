@@ -12,6 +12,14 @@ class RentalService {
     return rentalRepository.getAllRentals();
   }
 
+  getRentalsByCustomer(customerId: string) {
+    return rentalRepository.getRentalsByCustomer(customerId);
+  }
+
+  getRentalsByPlate(plate: string) {
+    return rentalRepository.getRentalsByPlate(plate);
+  }
+
   getRentalById(rentalId: string) {
     return rentalRepository.getRentalById(rentalId);
   }

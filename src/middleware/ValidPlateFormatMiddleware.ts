@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-class ValidPlateFormat {
+class ValidPlateFormatMiddleware {
     async validatePlate(req: Request, res: Response, next: NextFunction) {
         try {
             const plate = req.body.plate;
@@ -25,6 +25,6 @@ class ValidPlateFormat {
     }
 }
 
-const validPlateFormat = new ValidPlateFormat();
+const validPlateFormatMiddleware = new ValidPlateFormatMiddleware();
 
-export { validPlateFormat };
+export { validPlateFormatMiddleware };
