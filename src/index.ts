@@ -1,12 +1,20 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
-import { routes } from './routes';
+import { customerRoutes, rentalRoutes, vehicleRoutes, loginRoutes, employeeRoutes, passwordRoutes } from './routes';
 
+const port = process.env.PORT!;
 const app = express();
+
 app.use(express.json());
-const PORT = 3000;
+app.use(customerRoutes);
+app.use(rentalRoutes);
+app.use(vehicleRoutes);
+app.use(loginRoutes);
+app.use(employeeRoutes);
+app.use(passwordRoutes);
 
-app.use(routes);
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

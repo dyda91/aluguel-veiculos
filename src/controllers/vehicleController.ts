@@ -15,15 +15,16 @@ class VehicleController {
   }
 
   async getVehicleByPlate(req: Request, res: Response, next: NextFunction) {
-    const plate = req.params.plate;
-
     try {
+      const plate = req.params.plate;
       const vehicle = await vehicleService.getVehicleByPlate(plate);
+
       if (vehicle) {
         res.json(vehicle);
       } else {
         res.status(404).json({ error: 'Veículo não encontrado' });
       }
+      
       next();
     } catch (error) {
       console.error(error);
@@ -33,18 +34,14 @@ class VehicleController {
   }
 
   async createVehicle(req: Request, res: Response, next: NextFunction) {
-    const { plate, manufacturer, model, year, kilometers, category, hourlyRate } = req.body;
-<<<<<<< HEAD
-    console.log(req.body);
-=======
->>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
-
-    if (!plate || !manufacturer || !model || !year || !kilometers || !category || hourlyRate === undefined) {
-      res.status(400).json({ error: 'Necessário preencher todos os campos' });
-      return next();
-    }
-
     try {
+      const { plate, manufacturer, model, year, kilometers, category, hourlyRate } = req.body;
+
+      if (!plate || !manufacturer || !model || !year || !kilometers || !category || hourlyRate === undefined) {
+        res.status(400).json({ error: 'Necessário preencher todos os campos' });
+        return next();
+      }
+    
       const newVehicle = await vehicleService.createVehicle({
         plate,
         manufacturer,

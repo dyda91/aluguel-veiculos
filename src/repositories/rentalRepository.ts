@@ -56,6 +56,13 @@ class RentalRepository {
     }
   }
 
+  updateRentalStartDate(id:string, newStartDate: Date): void {
+    const rental = this.rentals.find((r) => r.id === id);
+    if (rental) {
+      rental.startDate = newStartDate;
+    }
+  }
+
   updateRentalEndDate(id:string, newEndDate: Date): void {
     const rental = this.rentals.find((r) => r.id === id);
     if (rental) {

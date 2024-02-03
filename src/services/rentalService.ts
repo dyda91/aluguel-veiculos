@@ -5,6 +5,7 @@ import { rentalRepository } from '../repositories/RentalRepository';
 import { vehicleRepository } from '../repositories/VehicleRepository';
 import { customerRepository } from '../repositories/CustomerRepository';
 import { v4 as uuidv4 } from 'uuid';
+import { AppError } from '../errors/AppError';
 
 class RentalService {
 <<<<<<< HEAD
@@ -83,6 +84,14 @@ class RentalService {
     return rentalRepository.getAllRentals();
   }
 
+  getRentalsByCustomer(customerId: string) {
+    return rentalRepository.getRentalsByCustomer(customerId);
+  }
+
+  getRentalsByPlate(plate: string) {
+    return rentalRepository.getRentalsByPlate(plate);
+  }
+
   getRentalById(rentalId: string) {
     return rentalRepository.getRentalById(rentalId);
   }
@@ -93,15 +102,15 @@ class RentalService {
     const isVehicleAvailable = rentalRepository.isVehicleAvailable(existingVehicle.plate, startDate, endDate);
 
     if (!existingCustomer) {
-      throw new Error('Cliente não encontrado');
+      throw new AppError('Cliente não encontrado');
     }
 
     if (!existingVehicle) {
-      throw new Error('Veículo não encontrado');
+      throw new AppError('Veículo não encontrado');
     }
     
     if (!isVehicleAvailable) {
-      throw new Error('Veículo não disponível para o período');
+      throw new AppError('Veículo não disponível para o período');
     }
 
     const rentalDays = this.calculateRentalDays(startDate, endDate);
@@ -124,29 +133,27 @@ class RentalService {
   }
 >>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
 
-  startRental(rentalId: string): void {
+  startRental(rentalId: string, startDate: Date): void {
     const rental = rentalRepository.getRentalById(rentalId);
-    if (!rental) {
-      throw new Error('Aluguel não encontrado');
-    }
 
     if (rental.status !== RentalStatus.PENDING) {
-      throw new Error('Status do Aluguel inválido');
+      throw new AppError('Status do Aluguel inválido');
     }
 
+    const rentalDays = this.calculateRentalDays(startDate, rental.endDate);
+    const rentalAmount = this.calculateRentalAmount(rental.vehicle.hourlyRate, rentalDays, startDate, rental.endDate);
     rentalRepository.updateRentalStatus(rentalId, RentalStatus.ACTIVE);
+    rentalRepository.updateRentalStartDate(rentalId, startDate);
+    rental.rentalDays = rentalDays;
+    rental.rentalAmount = rentalAmount;
     vehicleRepository.updateVehicleStatus(rental.vehicle.plate, false);
   }
 
   completeRental(rentalId: string, endDate: Date): void {
     const rental = rentalRepository.getRentalById(rentalId);
 
-    if (!rental) {
-      throw new Error('Aluguel não encontrado');
-    }
-
     if (rental.status !== RentalStatus.ACTIVE) {
-      throw new Error('Somente alugueis ativos podem ser concluídos');
+      throw new AppError('Somente alugueis ativos podem ser concluídos');
     }
 
     const rentalDays = this.calculateRentalDays(rental.startDate, endDate);
@@ -182,4 +189,3 @@ class RentalService {
 const rentalService = new RentalService();
 
 export { rentalService };
-

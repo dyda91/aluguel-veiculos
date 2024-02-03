@@ -1,13 +1,6 @@
 import { Customer } from './Customer';
 import { Vehicle } from './Vehicle';
-
-enum RentalStatus {
-  PENDING = 'PENDING',
-  ACTIVE = 'ACTIVE',
-  COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED',
-}
-
+import { RentalStatus } from './enums/RentalStatus';
 
 <<<<<<< HEAD
 interface Rental {
