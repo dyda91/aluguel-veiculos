@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { rentalController } from "../controllers/RentalController";
-import { authMiddleware } from "../middleware/AuthMiddleware";
-import { existingRentalMiddleware } from "../middleware/ExistingRentalMiddleware";
-import { authorizationByAttendantMiddleware } from "../middleware/AuthorizationByAttendantMiddleware";
-import { authorizationByManagerMiddleware } from "../middleware/AuthorizationByManagerMiddleware";
+import { authMiddleware } from "../middlewares/AuthMiddleware";
+import { existingRentalMiddleware } from "../middlewares/ExistingRentalMiddleware";
+import { authorizationByAttendantMiddleware } from "../middlewares/AuthorizationByAttendantMiddleware";
+import { authorizationByManagerMiddleware } from "../middlewares/AuthorizationByManagerMiddleware";
 
 const rentalRoutes = Router();
 

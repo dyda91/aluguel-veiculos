@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { employeeController } from '../controllers/EmployeeController';
-import { emailMiddleware } from '../middleware/EmailMiddleware';
-import { cpf_Middleware } from '../middleware/CPF_Middleware';
-import { licenseCategoryMiddleware } from '../middleware/LicenseCategoryMiddleware';
-import { authMiddleware } from '../middleware/AuthMiddleware';
-import { employeePositionMiddleware } from '../middleware/EmployeePositionMiddleware';
-import { authorizationByManagerMiddleware } from '../middleware/AuthorizationByManagerMiddleware';
-import { authorizationByAttendantMiddleware } from '../middleware/AuthorizationByAttendantMiddleware';
+import { emailMiddleware } from '../middlewares/EmailMiddleware';
+import { cpf_Middleware } from '../middlewares/CPF_Middleware';
+import { licenseCategoryMiddleware } from '../middlewares/LicenseCategoryMiddleware';
+import { authMiddleware } from '../middlewares/AuthMiddleware';
+import { employeePositionMiddleware } from '../middlewares/EmployeePositionMiddleware';
+import { authorizationByManagerMiddleware } from '../middlewares/AuthorizationByManagerMiddleware';
+import { authorizationByAttendantMiddleware } from '../middlewares/AuthorizationByAttendantMiddleware';
 
 const employeeRoutes = Router();
 

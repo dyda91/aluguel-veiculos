@@ -2,11 +2,7 @@ import { Customer } from './Customer';
 import { Vehicle } from './Vehicle';
 import { RentalStatus } from './enums/RentalStatus';
 
-<<<<<<< HEAD
-interface Rental {
-=======
 class Rental {
->>>>>>> 8cc19a7540bc72c524778beafa96486df285d31d
   id: string;
   customer: Customer;
   vehicle: Vehicle;

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { passwordController } from '../controllers/PasswordController';
-import { passwordAuthMiddleware } from '../middleware/PasswordAuthMiddleware';
-import { employeeForgottenPasswordRequestMiddleware } from '../middleware/EmployeeForgottenPasswordRequestMiddleware';
-import { customerForgottenPasswordRequestMiddleware } from '../middleware/CustomerForgottenPasswordRequestMiddleware';
-import { customerTokenVerificationMiddleware } from '../middleware/CustomerTokenVerificationMiddleware';
-import { employeeTokenVerificationMiddleware } from '../middleware/EmployeeTokenVerificationMiddleware';
-import { compareCustomerPasswordsMiddleware } from '../middleware/CompareCustomerPasswordsMiddleware';
-import { compareEmployeePasswordsMiddleware } from '../middleware/CompareEmployeePasswordsMiddleware';
+import { passwordAuthMiddleware } from '../middlewares/PasswordAuthMiddleware';
+import { employeeForgottenPasswordRequestMiddleware } from '../middlewares/EmployeeForgottenPasswordRequestMiddleware';
+import { customerForgottenPasswordRequestMiddleware } from '../middlewares/CustomerForgottenPasswordRequestMiddleware';
+import { customerTokenVerificationMiddleware } from '../middlewares/CustomerTokenVerificationMiddleware';
+import { employeeTokenVerificationMiddleware } from '../middlewares/EmployeeTokenVerificationMiddleware';
+import { compareCustomerPasswordsMiddleware } from '../middlewares/CompareCustomerPasswordsMiddleware';
+import { compareEmployeePasswordsMiddleware } from '../middlewares/CompareEmployeePasswordsMiddleware';
 
 const passwordRoutes = Router();
 

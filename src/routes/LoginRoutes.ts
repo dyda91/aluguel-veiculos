@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { loginController } from "../controllers/LoginController";
-import { customerLoginVerificationMiddleware } from '../middleware/CustomerLoginVerificationMiddleware';
-import { employeeLoginVerificationMiddleware } from '../middleware/EmployeeLoginVerificationMiddleware';
+import { customerLoginVerificationMiddleware } from '../middlewares/CustomerLoginVerificationMiddleware';
+import { employeeLoginVerificationMiddleware } from '../middlewares/EmployeeLoginVerificationMiddleware';
 
 const loginRoutes = Router();
 

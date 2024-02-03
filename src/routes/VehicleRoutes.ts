@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { vehicleController } from "../controllers/VehicleController";
-import { authMiddleware } from "../middleware/AuthMiddleware";
-import { existingVehicleMiddleware } from "../middleware/ExistingVehicleMiddleware";
-import { vehicleCategoryMiddleware } from "../middleware/VehicleCategoryMiddleware";
-import { validPlateFormatMiddleware } from "../middleware/ValidPlateFormatMiddleware";
-import { authorizationByManagerMiddleware } from "../middleware/AuthorizationByManagerMiddleware";
-import { authorizationByAttendantMiddleware } from "../middleware/AuthorizationByAttendantMiddleware";
+import { authMiddleware } from "../middlewares/AuthMiddleware";
+import { existingVehicleMiddleware } from "../middlewares/ExistingVehicleMiddleware";
+import { vehicleCategoryMiddleware } from "../middlewares/VehicleCategoryMiddleware";
+import { validPlateFormatMiddleware } from "../middlewares/ValidPlateFormatMiddleware";
+import { authorizationByManagerMiddleware } from "../middlewares/AuthorizationByManagerMiddleware";
+import { authorizationByAttendantMiddleware } from "../middlewares/AuthorizationByAttendantMiddleware";
 
 const vehicleRoutes = Router();
 
