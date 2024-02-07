@@ -14,15 +14,15 @@ class CompareEmployeePasswordsMiddleware {
             const employee = await employeeRepository.getEmployeeById(id);
 
             if (newPassword != confirmNewPassword) {
-                res.status(400).json({ error: 'Senha Inválida 1!' });
+                res.status(400).json({ error: 'Senha Inválida!' });
             }
 
             else if (encryptNewPassword === employee.password) {
-                res.status(400).json({ error: 'Senha Inválida 2!' });
+                res.status(400).json({ error: 'Senha Inválida!' });
             }
 
             else if (encryptConfirmNewPassword === employee.password) {
-                res.status(400).json({ error: 'Senha Inválida 3!' });
+                res.status(400).json({ error: 'Senha Inválida!' });
             }
 
             else {

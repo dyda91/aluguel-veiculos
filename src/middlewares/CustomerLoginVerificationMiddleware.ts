@@ -10,11 +10,11 @@ class CustomerLoginVerificationMiddleware {
             const passwordProvided = encrypt(password);
 
             if (!customer) {
-                res.status(400).json({ error: 'Email ou Senha inválidos 1' });
+                res.status(400).json({ error: 'Email ou Senha inválidos' });
             }
 
             else if (customer.password != passwordProvided) {
-                res.status(400).json({ error: 'Email ou Senha inválidos 2' });
+                res.status(400).json({ error: 'Email ou Senha inválidos' });
             }
 
             else {

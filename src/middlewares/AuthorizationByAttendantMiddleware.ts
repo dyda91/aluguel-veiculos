@@ -16,19 +16,19 @@ class AuthorizationByAttendantMiddleware {
             const employee = await employeeRepository.getEmployeeById(id);
 
             if (!employee) {
-                res.status(400).json({ error: 'Usuário não autorizado 1!' });
+                res.status(400).json({ error: 'Usuário não autorizado!' });
             }
 
             else if (!position) {
-                res.status(400).json({ error: 'Usuário não autorizado 2!' });
+                res.status(400).json({ error: 'Usuário não autorizado!' });
             }
 
             else if (employee.position != position) {
-                res.status(400).json({ error: 'Usuário não autorizado 3!' });
+                res.status(400).json({ error: 'Usuário não autorizado!' });
             }
 
             else if (employee.position != 'ATTENDANT' && employee.position != 'MANAGER') {
-                res.status(400).json({ error: 'Usuário não autorizado 4!' });
+                res.status(400).json({ error: 'Usuário não autorizado!' });
             }
 
             else {

@@ -10,11 +10,11 @@ class EmployeeLoginVerificationMiddleware {
             const employee = await employeeRepository.getEmployeeByEmail(email);
 
             if (!employee) {
-                res.status(400).json({ error: 'Email ou Senha inválidos 1' });
+                res.status(400).json({ error: 'Email ou Senha inválidos' });
             }
 
             else if (employee.password != passwordProvided) {
-                res.status(400).json({ error: 'Email ou Senha inválidos 2' });
+                res.status(400).json({ error: 'Email ou Senha inválidos' });
             }
 
             else {
