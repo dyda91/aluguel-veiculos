@@ -1,8 +1,4 @@
-enum LicenseCategory {
-  A = 'A',
-  B = 'B',
-  AB = 'AB',
-}
+import { LicenseCategory } from "./enums/LicenseCategory";
 
 class Customer {
   id: string; 

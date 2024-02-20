@@ -1,17 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { AppError } from "../errors/AppError";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authorizationHeader = req.header('Authorization');
     
     if (!authorizationHeader) {
-      throw new AppError('Token não informado');
+      return res.status(400).json({ error: 'Token não informado'});
     }
     
     if (!authorizationHeader.toLocaleLowerCase().startsWith('bearer ')) {
-      throw new AppError('Token inválido');
+      return res.status(400).json({ error: 'Token não informado'});
     }
     
     const accessToken = authorizationHeader.split(' ')[1];
@@ -20,7 +19,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     
     jwt.verify(accessToken, secret);
     next();
-  } catch (err) {
-    res.status(401).send({ mensagem: err.message });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+    next(error);
   }
 }

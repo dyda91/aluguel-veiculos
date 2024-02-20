@@ -13,6 +13,10 @@ class CustomerService {
     return customerRepository.getCustomerById(customerId);
   }
 
+  getCustomerByEmail(email: string) {
+    return customerRepository.getCustomerByEmail(email);
+  }
+
   createCustomer(
     name: string,
     cpf: string,
@@ -34,6 +38,21 @@ class CustomerService {
     };
     customerRepository.createCustomer(newCustomer);
     return newCustomer;
+  }
+
+  passwordCustomerUpdate(customerId: string, newPassword: string, confirmNewPassword: string) {
+    const encryptNewPassword = encrypt(newPassword);
+    const encryptConfirmNewPassword = encrypt(confirmNewPassword);
+    
+    if (encryptNewPassword === encryptConfirmNewPassword) {
+      const customerUpdate = customerRepository.getCustomerById(customerId);
+
+      if (customerUpdate) {
+        customerUpdate.password = encryptConfirmNewPassword;
+        customerRepository.updatePasswordCustomer(customerUpdate, encryptNewPassword, encryptConfirmNewPassword);
+        return customerUpdate;
+      }
+    }
   }
 }
 

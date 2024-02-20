@@ -1,3 +1,4 @@
+import { encrypt } from '../helpers/CryptHelper';
 import { Customer } from '../models/Customer';
 
 class CustomerRepository {
@@ -11,7 +12,7 @@ class CustomerRepository {
     return this.customers.find((customer) => customer.id === customerId);
   }
 
-  getCustomerByEmail(customerEmail: string): Customer |undefined {
+  getCustomerByEmail(customerEmail: string): Customer | undefined {
     return this.customers.find((customer) => customer.email === customerEmail);
   }
 
@@ -19,6 +20,31 @@ class CustomerRepository {
     this.customers.push(newCustomer);
     console.log(newCustomer)
     return newCustomer;
+  }
+
+  updatePasswordCustomer(customer: Customer, newPassword: string, confirmNewPassword: string): Customer | undefined {
+    if (newPassword === confirmNewPassword) {
+      const customerUpdate = this.getCustomerById(customer.id);
+
+      if (customerUpdate) {
+        customerUpdate.password = confirmNewPassword;
+
+        const updatedCustomer = this.updateCustomer(customerUpdate);
+
+        return updatedCustomer;
+      }
+    }
+  }
+
+  private updateCustomer(updatedCustomer: Customer): Customer | undefined {
+    const index = this.customers.findIndex((customer) => customer.id === updatedCustomer.id);
+
+    if (index !== -1) {
+      this.customers[index] = updatedCustomer;
+      return updatedCustomer;
+    } else {
+      return undefined;
+    }
   }
 }
 

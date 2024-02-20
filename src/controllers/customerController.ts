@@ -4,7 +4,7 @@ import { customerService } from '../services/CustomerService';
 class CustomerController {
   async getAllCustomers(req: Request, res: Response, next: NextFunction) {
     try {
-      const customers = await customerService.getAllCustomers(); 
+      const customers = await customerService.getAllCustomers();
       res.send(customers);
       next();
     } catch (error) {
@@ -15,15 +15,16 @@ class CustomerController {
   }
 
   async getCustomerById(req: Request, res: Response, next: NextFunction) {
-    const customerId = req.params.id;
-
     try {
+      const customerId = req.params.id;
       const customer = await customerService.getCustomerById(customerId);
+
       if (customer) {
         res.json(customer);
       } else {
         res.status(404).json({ error: 'Cliente não encontrado' });
       }
+      
       next();
     } catch (error) {
       console.error(error);
@@ -33,20 +34,20 @@ class CustomerController {
   }
 
   async createCustomer(req: Request, res: Response, next: NextFunction) {
-    const { name, cpf, email, password, phone, licenseCategory } = req.body;
-
-    if (!name || !cpf || !email || !password ||!phone || !licenseCategory) {
-      res.status(400).json({ error: 'Necessário fornecer todos os dados' });
-      return next();
-    }
-
     try {
+      const { name, cpf, email, password, phone, licenseCategory } = req.body;
+
+      if (!name || !cpf || !email || !password || !phone || !licenseCategory) {
+        res.status(400).json({ error: 'Necessário fornecer todos os dados' });
+        return next();
+      }
+
       const newCustomer = await customerService.createCustomer(
-        name, 
-        cpf, 
-        email, 
-        password, 
-        phone, 
+        name,
+        cpf,
+        email,
+        password,
+        phone,
         licenseCategory
       );
       res.status(201).json(newCustomer);

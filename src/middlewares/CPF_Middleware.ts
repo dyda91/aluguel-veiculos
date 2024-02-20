@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { customerRepository } from '../repositories/CustomerRepository';
+import { employeeRepository } from '../repositories/EmployeeRepository';
+import bcrypt from 'bcrypt';
 
 class CPF_Middleware {
   async validateCPF(req: Request, res: Response, next: NextFunction) {
@@ -7,8 +9,15 @@ class CPF_Middleware {
 
     try {
       const existingCustomer = await customerRepository.getAllCustomers().find(
-        (customer) => customer.cpf === cpf
+        (customer) => bcrypt.compareSync(cpf, customer.cpf)
       );
+      const existingEmployee = await employeeRepository.getAllEmployees().find(
+        (employee) => bcrypt.compareSync(cpf, employee.cpf)
+      );
+
+      if(existingEmployee) {
+        return res.status(400).json({ error: 'CPF já cadastrado' });
+      }
 
       if (existingCustomer) {
         return res.status(400).json({ error: 'CPF já cadastrado' });
