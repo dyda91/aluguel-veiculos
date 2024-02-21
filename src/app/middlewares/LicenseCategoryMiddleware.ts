@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { LicenseCategory } from '../../infra/db/sequelize/models/licenseCategory';
 
 class LicenseCategoryMiddleware {
   validateLicenseCategory(req: Request, res: Response, next: NextFunction) {

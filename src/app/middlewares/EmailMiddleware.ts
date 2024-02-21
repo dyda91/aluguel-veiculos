@@ -8,13 +8,13 @@ class EmailMiddleware {
 
     try {
       const customer = await customerRepository.findByEmail(email)
-        const compareCustomerEmail = await customer.email === email
-      
+      const compareCustomerEmail = await customer.email === email
 
-        const employee = await customerRepository.findByEmail(email)
-        const compareEmployeeEmail = await employee.email === email
 
-      if(compareEmployeeEmail) {
+      const employee = await employeeRepository.findByEmail(email)
+      const compareEmployeeEmail = await employee.email === email
+
+      if (compareEmployeeEmail) {
         return res.status(400).json({ error: 'Email já cadastrado' });
       }
 
