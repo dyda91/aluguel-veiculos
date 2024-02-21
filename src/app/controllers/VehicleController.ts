@@ -9,7 +9,7 @@ class VehicleController {
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }
@@ -20,15 +20,15 @@ class VehicleController {
       const vehicle = await vehicleService.findByPlate(plate);
 
       if (vehicle) {
-        res.json(vehicle);
+        res.send(vehicle);
       } else {
-        res.status(404).json({ error: 'Veículo não encontrado' });
+        res.status(404).send({ error: 'Veículo não encontrado' });
       }
       
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }
@@ -38,7 +38,7 @@ class VehicleController {
       const { plate, manufacturer, model, year, kilometers, category, hourlyRate } = req.body;
 
       if (!plate || !manufacturer || !model || !year || !kilometers || !category || hourlyRate === undefined) {
-        res.status(400).json({ error: 'Necessário preencher todos os campos' });
+        res.status(400).send({ error: 'Necessário preencher todos os campos' });
         return next();
       }
     
@@ -52,11 +52,11 @@ class VehicleController {
         hourlyRate,
         isAvailable: true
       });
-      res.status(201).json(newVehicle);
+      res.status(201).send(newVehicle);
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

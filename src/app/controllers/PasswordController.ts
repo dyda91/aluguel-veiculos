@@ -8,11 +8,11 @@ class PasswordController {
         try {
             const { email, cpf } = req.body;
             const reply = await passwordService.forgotCustomerPassword({ email, cpf });
-            res.json(reply);
+            res.send(reply);
             next();
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }
@@ -21,11 +21,11 @@ class PasswordController {
         try {
             const { email, cpf } = req.body;
             const reply = await passwordService.forgotEmployeePassword({ email, cpf });
-            res.json(reply);
+            res.send(reply);
             next();
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }
@@ -39,17 +39,17 @@ class PasswordController {
 
             if (customer) {
                 await customerService.passwordUpdate(id, newPassword, confirmNewPassword);
-                res.status(200).json({ message: 'Senha atualizada com sucesso!' });
+                res.status(200).send({ message: 'Senha atualizada com sucesso!' });
             }
 
             if (!customer) {
-                res.status(404).json({ error: "Usuário não encontrado" });
+                res.status(404).send({ error: "Usuário não encontrado" });
             }
 
             next();
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }
@@ -63,17 +63,17 @@ class PasswordController {
 
             if (employee) {
                 await employeeService.passwordUpdate(id, newPassword, confirmNewPassword);
-                res.status(200).json({ message: 'Senha atualizada com sucesso!' });
+                res.status(200).send({ message: 'Senha atualizada com sucesso!' });
             }
 
             if (!employee) {
-                res.status(404).json({ error: "Usuário não encontrado" });
+                res.status(404).send({ error: "Usuário não encontrado" });
             }
 
             next();
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }

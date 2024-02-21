@@ -9,7 +9,7 @@ class CustomerController {
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }
@@ -20,15 +20,15 @@ class CustomerController {
       const customer = await customerService.findById(customerId);
 
       if (customer) {
-        res.json(customer);
+        res.send(customer);
       } else {
-        res.status(404).json({ error: 'Cliente não encontrado' });
+        res.status(404).send({ error: 'Cliente não encontrado' });
       }
       
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }
@@ -38,23 +38,26 @@ class CustomerController {
       const { name, cpf, email, password, phone, licenseCategory } = req.body;
 
       if (!name || !cpf || !email || !password || !phone || !licenseCategory) {
-        res.status(400).json({ error: 'Necessário fornecer todos os dados' });
+        res.status(400).send({ error: 'Necessário fornecer todos os dados' });
         return next();
       }
 
+      const upperCaseName = name.toUpperCase();
+      const lowerCaseEmail = email.toLowerCase();
+
       const newCustomer = await customerService.create({
-        name,
+        name: upperCaseName,
         cpf,
-        email,
+        email: lowerCaseEmail,
         password,
         phone,
         licenseCategory
       });
-      res.status(201).json(newCustomer);
+      res.status(201).send(newCustomer);
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

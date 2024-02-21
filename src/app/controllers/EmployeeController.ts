@@ -9,7 +9,7 @@ class EmployeeController {
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }
@@ -20,15 +20,15 @@ class EmployeeController {
       const employee = await employeeService.findById(employeeId);
 
       if (employee) {
-        res.json(employee);
+        res.send(employee);
       } else {
-        res.status(404).json({ error: 'Colaborador não encontrado' });
+        res.status(404).send({ error: 'Colaborador não encontrado' });
       }
 
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }
@@ -38,24 +38,27 @@ class EmployeeController {
       const { name, cpf, email, password, phone, licenseCategory, position } = req.body;
 
       if (!name || !cpf || !email || !password || !phone || !licenseCategory || !position) {
-        res.status(400).json({ error: 'Necessário fornecer todos os dados' });
+        res.status(400).send({ error: 'Necessário fornecer todos os dados' });
         return next();
       }
       
+      const upperCaseName = name.toUpperCase();
+      const lowerCaseEmail = email.toLowerCase();
+
       const newEmployee = await employeeService.create({
-        name,
+        name: upperCaseName,
         cpf,
-        email,
+        email: lowerCaseEmail,
         password,
         phone,
         licenseCategory,
         position
       });
-      res.status(201).json(newEmployee);
+      res.status(201).send(newEmployee);
       next();
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      res.status(500).send({ error: 'Erro interno do servidor' });
       next(error);
     }
   }

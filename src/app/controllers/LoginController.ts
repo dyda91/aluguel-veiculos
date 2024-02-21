@@ -6,11 +6,11 @@ class LoginController {
         try {
             const { email, password } = req.body;
             const resposta = await loginService.signInCustomer({ email, password });
-            res.json(resposta);
+            res.send(resposta);
             next();
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }
@@ -19,11 +19,11 @@ class LoginController {
         try {
             const { email, password } = req.body;
             const resposta = await loginService.signInEmployee({ email, password });
-            res.json(resposta);
+            res.send(resposta);
             next();
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            res.status(500).send({ error: 'Erro interno do servidor' });
             next(error);
         }
     }
