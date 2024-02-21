@@ -13,19 +13,19 @@ customerRoutes.post('/customers',
     emailMiddleware.validateEmail,
     cpf_Middleware.validateCPF,
     licenseCategoryMiddleware.validateLicenseCategory,
-    customerController.createCustomer
+    customerController.create
 );
 
 // Get
 customerRoutes.get('/customers',
     authMiddleware,
     authorizationByAttendantMiddleware.authorization,
-    customerController.getAllCustomers
+    customerController.findAll
 );
 
 customerRoutes.get('/customers/:id',
     authMiddleware,
-    customerController.getCustomerById
+    customerController.findById
 );
 
 export { customerRoutes };

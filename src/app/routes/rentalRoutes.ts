@@ -11,14 +11,14 @@ const rentalRoutes = Router();
 rentalRoutes.get('/rentals',
     authMiddleware,
     authorizationByManagerMiddleware.authorization,
-    rentalController.getAllRentals
+    rentalController.findAll
 );
 
 rentalRoutes.get('/rentals/:id',
     authMiddleware,
     authorizationByAttendantMiddleware.authorization,
     existingRentalMiddleware.check,
-    rentalController.getRentalById
+    rentalController.findById
 );
 
 // Post

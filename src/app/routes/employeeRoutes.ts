@@ -16,20 +16,20 @@ employeeRoutes.post('/employees',
     cpf_Middleware.validateCPF,
     licenseCategoryMiddleware.validateLicenseCategory,
     employeePositionMiddleware.validatePosition,
-    employeeController.createEmployee
+    employeeController.create
 );
 
 // Get
 employeeRoutes.get('/employees',
     authMiddleware,
     authorizationByManagerMiddleware.authorization,
-    employeeController.getAllEmployees
+    employeeController.findAll
 );
 
 employeeRoutes.get('/employees/:id',
     authMiddleware,
     authorizationByAttendantMiddleware.authorization,
-    employeeController.getEmployeeById
+    employeeController.findById
 );
 
 ;

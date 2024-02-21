@@ -13,13 +13,13 @@ const vehicleRoutes = Router();
 vehicleRoutes.get('/vehicles',
     authMiddleware,
     authorizationByAttendantMiddleware.authorization,
-    vehicleController.getAllVehicles
+    vehicleController.findAll
 );
 
 vehicleRoutes.get('/vehicles/:plate',
     authMiddleware,
     authorizationByAttendantMiddleware.authorization,
-    vehicleController.getVehicleByPlate
+    vehicleController.findByPlate
 );
 
 // Post
@@ -29,7 +29,7 @@ vehicleRoutes.post('/vehicles',
     existingVehicleMiddleware.check,
     validPlateFormatMiddleware.validatePlate,
     vehicleCategoryMiddleware.validateCategory,
-    vehicleController.createVehicle
+    vehicleController.create
 );
 
 export { vehicleRoutes };
