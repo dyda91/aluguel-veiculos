@@ -54,7 +54,7 @@ const Rental = sequelize.define('rentals', {
 );
 
 Rental.belongsTo(RentalStatus, { foreignKey: 'status' });
-Rental.belongsTo(Customer, { foreignKey: 'customer' });
-Rental.belongsTo(Vehicle, { foreignKey: 'vehicle' });
+Rental.belongsTo(Customer, { foreignKey: 'customer', as: 'rentalCustomer' });
+Rental.belongsTo(Vehicle, { foreignKey: 'vehicle', as: 'rentalVehicle' });
 
 export { Rental };

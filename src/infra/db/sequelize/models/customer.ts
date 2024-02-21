@@ -40,6 +40,6 @@ const Customer = sequelize.define('customers', {
   }
 );
 
-Customer.belongsTo(LicenseCategory, { foreignKey: 'licenseCategory'});
+Customer.belongsTo(LicenseCategory, { foreignKey: 'licenseCategory', as: 'customerLicenseCategory'});
 
 export { Customer };

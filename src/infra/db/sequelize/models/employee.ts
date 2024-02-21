@@ -48,7 +48,7 @@ const Employee = sequelize.define('employees', {
     }
 );
 
-Employee.belongsTo(LicenseCategory, { foreignKey: 'licenseCategory' });
+Employee.belongsTo(LicenseCategory, { foreignKey: 'licenseCategory', as: 'employeeLicenseCategory'});
 Employee.belongsTo(EmployeePosition, { foreignKey: 'position' });
 
 export { Employee };
