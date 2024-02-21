@@ -6,18 +6,18 @@ import { Vehicle } from "./vehicle";
 
 const Rental = sequelize.define('rentals', {
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(36),
     primaryKey: true
   },
   customer: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(36),
     references: {
       model: 'customers',
       key: 'id'
     }
   },
   vehicle: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(36),
     references: {
       model: 'vehicles',
       key: 'id'
@@ -40,9 +40,9 @@ const Rental = sequelize.define('rentals', {
     allowNull: false
   },
   status: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(36),
     references: {
-      model: 'rentalStatus',
+      model: 'rentalstatuses',
       key: 'id'
     }
   }
