@@ -16,18 +16,16 @@ class EmployeeTokenVerificationMiddleware {
             const position = decodedToken.position;
 
             if (id && email && cpf && position) {
-                const employeeId = await employeeRepository.getEmployeeById(id);
-                const employeeEmail = await employeeRepository.getEmployeeByEmail(email);
+                const employeeId = await employeeRepository.findById(id);
+                const employeeEmail = await employeeRepository.findByEmail(email);
                 
-                const employeeCPF = await employeeRepository.getAllEmployees().find(
-                    (employee) => cpf === employee.cpf
-                );
+                const employeeCPF = await employeeRepository.findByCpf(cpf)
+                const compareCpf  = cpf === employeeCPF.cpf
 
-                const employeePosition = await employeeRepository.getAllEmployees().find(
-                    (employee) => position === employee.position
-                );
+                const employeePosition = await employeeRepository.findByPosition(position)
+                const comparePosition = await position === employeePosition.position
 
-                if (!employeeId || !employeeEmail || !employeeCPF || !employeePosition) {
+                if (!employeeId || !employeeEmail || !compareCpf || !comparePosition) {
                     return res.status(401).json({ error: 'Token inválido' });
                 }
 

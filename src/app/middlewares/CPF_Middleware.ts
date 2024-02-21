@@ -8,18 +8,18 @@ class CPF_Middleware {
     const { cpf } = req.body;
 
     try {
-      const existingCustomer = await customerRepository.getAllCustomers().find(
-        (customer) => bcrypt.compareSync(cpf, customer.cpf)
-      );
-      const existingEmployee = await employeeRepository.getAllEmployees().find(
-        (employee) => bcrypt.compareSync(cpf, employee.cpf)
-      );
+      const customer = await customerRepository.findByCpf(cpf);
+      const compareCustomerCpf = await bcrypt.compareSync(cpf, (await customer).cpf)
+      
+      const employee = await employeeRepository.findByCpf(cpf)
+      const compareEmployeeCpf = await bcrypt.compareSync(cpf, (await employee).cpf)
+      
 
-      if(existingEmployee) {
+      if(compareEmployeeCpf) {
         return res.status(400).json({ error: 'CPF já cadastrado' });
       }
 
-      if (existingCustomer) {
+      if (compareCustomerCpf) {
         return res.status(400).json({ error: 'CPF já cadastrado' });
       }
 

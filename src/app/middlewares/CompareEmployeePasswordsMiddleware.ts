@@ -11,7 +11,7 @@ class CompareEmployeePasswordsMiddleware {
 
             const encryptNewPassword = encrypt(newPassword);
             const encryptConfirmNewPassword= encrypt(confirmNewPassword);
-            const employee = await employeeRepository.getEmployeeById(id);
+            const employee = await employeeRepository.findById(id);
 
             if (newPassword != confirmNewPassword) {
                 res.status(400).json({ error: 'Senha Inválida!' });

@@ -6,17 +6,16 @@ class EmployeeForgottenPasswordRequestMiddleware {
     async check(req: Request, res: Response, next: NextFunction) {
         const { email, cpf } = req.body;
         try {
-            const employeeEmail = await employeeRepository.getEmployeeByEmail(email);
+            const employeeEmail = await employeeRepository.findByEmail(email);
             
-            const employeeCPF = await employeeRepository.getAllEmployees().find(
-                (employee) => bcrypt.compareSync(cpf, employee.cpf)
-            );            
+            const employeeCPF = await employeeRepository.findByCpf(cpf)
+            const compareCpf = await bcrypt.compareSync(cpf, employeeCPF.cpf)          
 
             if (!employeeEmail) {
                 return res.status(400).json({ error: 'Email ou CPF inválidos' });
             }
             
-            else if (!employeeCPF) {
+            else if (!compareCpf) {
                 return res.status(400).json({ error: 'Email ou CPF inválidos' });
             }
 

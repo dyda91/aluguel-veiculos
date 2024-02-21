@@ -7,7 +7,7 @@ class EmployeeLoginVerificationMiddleware {
         try {
             const { email, password } = req.body;
             const passwordProvided = encrypt(password);
-            const employee = await employeeRepository.getEmployeeByEmail(email);
+            const employee = await employeeRepository.findByEmail(email);
 
             if (!employee) {
                 res.status(400).json({ error: 'Email ou Senha inválidos' });

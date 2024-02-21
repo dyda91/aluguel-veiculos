@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { VehicleCategory } from '../../infra/db/sequelize/models/vehicle';
 
 class VehicleCategoryMiddleware {
   validateCategory(req: Request, res: Response, next: NextFunction) {

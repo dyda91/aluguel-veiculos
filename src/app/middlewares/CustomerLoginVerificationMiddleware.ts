@@ -6,7 +6,7 @@ class CustomerLoginVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body;
-            const customer = await customerRepository.getCustomerByEmail(email);
+            const customer = await customerRepository.findByEmail(email);
             const passwordProvided = encrypt(password);
 
             if (!customer) {

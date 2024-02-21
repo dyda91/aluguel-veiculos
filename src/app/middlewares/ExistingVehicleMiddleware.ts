@@ -5,7 +5,7 @@ class ExistingVehicleMiddleware {
   async check(req: Request, res: Response, next: NextFunction) {
     try {
       const plate = req.body.plate;
-      const existingVehicle = await vehicleRepository.getVehicleByPlate(plate);
+      const existingVehicle = await vehicleRepository.findByPlate(plate);
 
       if (existingVehicle) {
         return res.status(400).json({ error: 'Veículo já cadastrado' });

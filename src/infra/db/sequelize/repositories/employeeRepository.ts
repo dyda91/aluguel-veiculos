@@ -82,6 +82,24 @@ class EmployeeRepository implements IEmployeeRepository {
     }
   }
 
+  async findByPosition(position: string): Promise<IEmployee | null> {
+    const employee = await Employee.findByPk(position);
+    if (employee) {
+      return {
+        id: employee.dataValues.id,
+        name: employee.dataValues.name,
+        cpf: employee.dataValues.cpf,
+        email: employee.dataValues.email,
+        password: employee.dataValues.password,
+        phone: employee.dataValues.phone,
+        licenseCategory: employee.dataValues.licenseCategory,
+        position: employee.dataValues.position
+      }
+    } else {
+      return null;
+    }
+  }
+
   async create(data: IEmployee): Promise<void> {
     const employee = await Employee.create({
       id: data.id,

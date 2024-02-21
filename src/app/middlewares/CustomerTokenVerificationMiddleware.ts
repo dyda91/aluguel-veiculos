@@ -15,11 +15,11 @@ class CustomerTokenVerificationMiddleware {
             const cpf = decodedToken.cpf;
 
             if (id && email && cpf) {
-                const customerId = await customerRepository.getCustomerById(id);
-                const customerEmail = await customerRepository.getCustomerByEmail(email);
-                const customerCPF = await customerRepository.getAllCustomers().find(
-                    (customer) => cpf === customer.cpf
-                );
+                const customerId = await customerRepository.findById(id);
+                const customerEmail = await customerRepository.findByEmail(email);
+                const customer= await customerRepository.findByCpf(cpf)
+                const customerCPF = await cpf === await customer.cpf
+                
 
                 if (!customerId || !customerEmail || !customerCPF) {
                     return res.status(401).json({ error: 'Token inválido' });

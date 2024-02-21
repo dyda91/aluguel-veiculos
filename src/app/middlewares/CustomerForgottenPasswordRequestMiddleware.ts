@@ -7,17 +7,17 @@ class CustomerForgottenPasswordRequestMiddleware {
     async check(req: Request, res: Response, next: NextFunction) {
         const { email, cpf } = req.body;
         try {
-            const customerEmail = await customerRepository.getCustomerByEmail(email);
+            const customerEmail = await customerRepository.findByEmail(email);
             
-            const customerCPF = await customerRepository.getAllCustomers().find(
-                (customer) => bcrypt.compareSync(cpf, customer.cpf)
-            );            
+            const customerCPF = await customerRepository.findByCpf(cpf)
+            const compareCustomerCpf = await bcrypt.compareSync(cpf, (await customerCPF).cpf)
+                 
 
             if (!customerEmail) {
                 return res.status(400).json({ error: 'Email ou CPF inválidos' });
             }    
 
-            else if (!customerCPF) {
+            else if (!compareCustomerCpf) {
                 return res.status(400).json({ error: 'Email ou CPF inválidos' });
             }
 

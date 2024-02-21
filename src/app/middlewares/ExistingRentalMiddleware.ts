@@ -6,7 +6,7 @@ class ExistingRentalMiddleware {
     const id = req.body.id || req.params.id;
 
     try {
-      const existingRental = await rentalRepository.getRentalById(id);
+      const existingRental = await rentalRepository.findById(id);
 
       if (!existingRental) {
         return res.status(400).json({ error: 'Aluguel não encontrado' });

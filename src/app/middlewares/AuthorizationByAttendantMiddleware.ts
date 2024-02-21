@@ -13,7 +13,7 @@ class AuthorizationByAttendantMiddleware {
 
             const position = decodedToken.position;
             const id = decodedToken.id;
-            const employee = await employeeRepository.getEmployeeById(id);
+            const employee = await employeeRepository.findById(id);
 
             if (!employee) {
                 res.status(400).json({ error: 'Usuário não autorizado!' });
