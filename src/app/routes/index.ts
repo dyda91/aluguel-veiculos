@@ -8,6 +8,7 @@ import { passwordRoutes } from './passwordRoutes';
 import { licenseCategoryRoutes } from './licenseCategoryRoutes';
 import { vehicleCategoryRoutes } from './vehicleCategoryRoutes';
 import { employeePositionRoutes } from './employeePositionRoutes';
+import { rentalStatusRoutes } from './rentalStatusRoutes';
 
 const routes = Router();
 
@@ -20,7 +21,8 @@ routes.use(
     passwordRoutes, 
     licenseCategoryRoutes,
     vehicleCategoryRoutes,
-    employeePositionRoutes
+    employeePositionRoutes,
+    rentalStatusRoutes
 );
 
 export { routes };
