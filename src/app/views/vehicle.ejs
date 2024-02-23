@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veículo</title>
+</head>
+<body>
+  <h1>Veículo</h1>
+  <form action="/vehicles" method="post">
+    <section>
+        <label for="plate">Placa</label>
+        <input id="plate" name="plate" type="text" autocomplete="plate" required>
+    </section>
+    <section>
+        <label for="manufacturer">Fabricante</label>
+        <input id="manufacturer" name="manufacturer" type="text" autocomplete="manufacturer" required>
+    </section>
+    <section>
+        <label for="model">Modelo</label>
+        <input id="model" name="model" type="text" autocomplete="model" required>
+    </section>
+    <section>
+        <label for="year">Ano</label>
+        <input id="year" name="year" type="number" autocomplete="year" required>
+    </section>
+    <section>
+        <label for="kilometers">Quilometragem</label>
+        <input id="kilometers" name="kilometers" type="number" autocomplete="kilometers" required>
+    </section>
+    <section>
+        <label for="category">Categoria</label>
+        <input id="category" name="category" type="text" autocomplete="category" required>
+    </section>
+    <section>
+        <label for="hourlyRate">Valor por Hora</label>
+        <input id="hourlyRate" name="hourlyRate" type="number" autocomplete="hourlyRate" required>
+    </section>
+    <button type="submit">Cadastrar</button>
+</form>
+</body>
+</html>

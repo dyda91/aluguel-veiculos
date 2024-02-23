@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicles</title>
+</head>
+
+<body>
+  {{#each vehicles}}
+    <strong>Placa:</strong> {{this.plate}} <br>
+    <strong>Fabricante:</strong> {{this.manufacturer}} <br>
+    <strong>Modelo:</strong> {{this.model}} <br>
+    <strong>Ano:</strong> {{this.year}} <br>
+    <strong>Quilometragem:</strong> {{this.kilometers}} <br>
+    <strong>Categoria:</strong> {{this.category}} <br>
+    <strong>Valor por Hora:</strong> {{this.hourlyRate}} <br>
+    <strong>Disponibilidade:</strong> {{this.isAvailable}} <br>
+  <br>
+  {{/each}}
+</body>
+
+</html>
