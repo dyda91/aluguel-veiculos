@@ -3,16 +3,7 @@ import { Rental } from '../models/rental';
 
 class RentalRepository implements IRentalRepository {
   async findAll(): Promise<IRental[]> {
-    const rentals = await Rental.findAll({
-      include: [
-        {
-          model: Rental,
-          attributes: {
-            exclude: ['path']
-          }
-        }
-      ]
-    });
+    const rentals = await Rental.findAll();
     return rentals.map(item => {
       return {
         id: item.dataValues.id,
@@ -45,7 +36,7 @@ class RentalRepository implements IRentalRepository {
     }
   }
 
-  async findByCustomer(customerId: string): Promise<IRental | null> {
+  async findRentalsByCustomer(customerId: string): Promise<IRental | null> {
     const rental = await Rental.findByPk(customerId);
     if (rental) {
       return {
@@ -100,29 +91,27 @@ class RentalRepository implements IRentalRepository {
   }
 
   async updateRentalStartDate(id: string, newStartDate: Date): Promise<void> {
-    const rental = await this.findById(id);
-    if (rental) {
-      (await rental).startDate = newStartDate;
-    }
+    await Rental.update({ startDate: newStartDate }, { where: { id } });
   }
 
   async updateRentalEndDate(id: string, newEndDate: Date): Promise<void> {
-    const rental = await this.findById(id);
-    if (rental) {
-      (await rental).startDate = newEndDate;
-    }
+    await Rental.update({ endDate: newEndDate }, { where: { id } });
   }
 
-  async isVehicleAvailable(plate: string, startDate: Date, endDate: Date): Promise<boolean> {
-    const rental = await this.findRentalsByPlate(plate);
-    const overlappingRentals = await this.areDatesOverlapping(startDate, endDate, (await rental).startDate, (await rental).endDate);
-    return overlappingRentals === false;
-  }
+  // async isVehicleAvailable(plate: string, startDate: Date, endDate: Date): Promise<boolean> {
+  //   const rental = await this.findRentalsByPlate(plate);
+  //   if (rental) {
+  //     const overlappingRentals = await this.areDatesOverlapping(startDate, endDate, startDate, endDate);
+  //     return !overlappingRentals;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
-  private async areDatesOverlapping(start1: Date, end1: Date, start2: Date, end2: Date): Promise<boolean> {
-    const start = await start1 <= end2 && end1 >= start2;
-    return start
-  }
+  // private async areDatesOverlapping(start1: Date, end1: Date, start2: Date, end2: Date): Promise<boolean> {
+  //   const start = start1 <= end2 && end1 >= start2;
+  //   return start
+  // }
 }
 
 const rentalRepository = new RentalRepository();

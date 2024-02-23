@@ -9,35 +9,35 @@ const rentalRoutes = Router();
 
 // Get
 rentalRoutes.get('/rentals',
-    authMiddleware,
-    authorizationByManagerMiddleware.authorization,
+    // authMiddleware,
+    // authorizationByManagerMiddleware.authorization,
     rentalController.findAll
 );
 
 rentalRoutes.get('/rentals/:id',
-    authMiddleware,
-    authorizationByAttendantMiddleware.authorization,
-    existingRentalMiddleware.check,
+    // authMiddleware,
+    // authorizationByAttendantMiddleware.authorization,
+    // existingRentalMiddleware.check,
     rentalController.findById
 );
 
 // Post
 rentalRoutes.post('/rentals',
-    authMiddleware,
+    // authMiddleware,
     rentalController.rentVehicle
 );
 
 rentalRoutes.post('/rentals/start',
-    authMiddleware,
-    authorizationByAttendantMiddleware.authorization,
-    existingRentalMiddleware.check,
+    // authMiddleware,
+    // authorizationByAttendantMiddleware.authorization,
+    // existingRentalMiddleware.check,
     rentalController.startRental
 );
 
 rentalRoutes.post('/rentals/complete',
-    authMiddleware,
-    authorizationByAttendantMiddleware.authorization,
-    existingRentalMiddleware.check,
+    // authMiddleware,
+    // authorizationByAttendantMiddleware.authorization,
+    // existingRentalMiddleware.check,
     rentalController.completeRental
 );
 

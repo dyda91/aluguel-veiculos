@@ -17,18 +17,18 @@ class PasswordController {
         }
     }
 
-    async forgotEmployeePassword(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { email, cpf } = req.body;
-            const reply = await passwordService.forgotEmployeePassword({ email, cpf });
-            res.send(reply);
-            next();
-        } catch (error) {
-            console.error(error);
-            res.status(500).send({ error: 'Erro interno do servidor' });
-            next(error);
-        }
-    }
+    // async forgotEmployeePassword(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         const { email, cpf } = req.body;
+    //         // const reply = await passwordService.forgotEmployeePassword({ email, cpf });
+    //         res.send(reply);
+    //         next();
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).send({ error: 'Erro interno do servidor' });
+    //         next(error);
+    //     }
+    // }
 
     async changeCustomerPassword(req: Request, res: Response, next: NextFunction) {
         try {

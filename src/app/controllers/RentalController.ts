@@ -33,7 +33,7 @@ class RentalController {
 
   async rentVehicle(req: Request, res: Response, next: NextFunction) {
     try {
-      const { customerId, vehiclePlate, startDate, endDate } = req.body;
+      const { customerId, vehiclePlate, startDate, endDate, status } = req.body;
 
       if (!customerId || !vehiclePlate || !startDate || !endDate) {
         res.status(400).send({ error: 'Necessário preencher todos os campos' });
@@ -52,9 +52,9 @@ class RentalController {
         return next();
       }
       
-      const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      const rental = await rentalService.create(customer, vehicle, formattedStartDate, formattedEndDate);
+      // const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
+      // const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
+      const rental = await rentalService.create(customer, vehicle, startDate, endDate, status);
       res.status(201).send(rental);
       next();
     } catch (error) {
@@ -66,9 +66,9 @@ class RentalController {
 
   async startRental(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, startDate } = req.body;
-      const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalService.startRental(id, formattedStartDate);
+      const { id, startDate, endDate } = req.body;
+      // const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
+      rentalService.startRental(id, startDate, endDate);
       res.status(200).send({ message: 'Veículo retirado da locadora pelo cliente' });
       next();
     } catch (error) {
@@ -79,9 +79,9 @@ class RentalController {
 
   async completeRental(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, endDate } = req.body;
-      const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalService.completeRental(id, formattedEndDate);
+      const { id, endDate, startDate } = req.body;
+      // const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
+      rentalService.completeRental(id, endDate, startDate);
       res.status(200).send({ message: 'Devolução do veículo concluída com sucesso' });
       next();
     } catch (error) {

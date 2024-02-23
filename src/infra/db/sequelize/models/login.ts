@@ -3,11 +3,11 @@ import { sequelize } from '..'
 
 const Login = sequelize.define('login', {
     email: {
-        type: DataTypes.STRING(36),
+        type: DataTypes.STRING(100),
         primaryKey: true
     },
     password: {
-        type: DataTypes.STRING(36),
+        type: DataTypes.STRING(20),
         allowNull: true
     },
 },

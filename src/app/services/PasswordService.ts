@@ -2,11 +2,12 @@ import { customerRepository } from '../../infra/db/sequelize/repositories/custom
 import { employeeRepository } from '../../infra/db/sequelize/repositories/employeeRepository';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { employeeService } from './EmployeeService';
 
 class PasswordService {
     async forgotCustomerPassword({ email, cpf }) {
         const secret = process.env.JWT_SECRET_2!;
-        const customerCpf = await customerRepository.findByCpf(cpf) 
+        const customerCpf = await customerRepository.findByCpf(cpf)
         const compareCpf = bcrypt.compareSync(cpf, (await customerCpf).cpf);
         const customer = await customerRepository.findByEmail(email);
 
@@ -25,27 +26,27 @@ class PasswordService {
         }
     }
 
-    async forgotEmployeePassword({ email, cpf }) {
-        const secret = process.env.JWT_SECRET_2!;
-        const employeeCpf = await employeeRepository.findByCpf(cpf)
-        const compareCpf = bcrypt.compareSync(cpf, (await employeeCpf).cpf); 
-        const emplyoee = await employeeRepository.findByEmail(email);
+    // async forgotEmployeePassword({ email, cpf }) {
+    //     const secret = process.env.JWT_SECRET_2!;
+    //     const employeeCpf = await employeeService.findByCpf(cpf)
+    //     const compareCpf = bcrypt.compareSync(cpf, employeeCpf);
+    //     const emplyoee = await employeeRepository.findByEmail(email);
 
-        if (compareCpf && emplyoee) {
-            const token = jwt.sign(
-                {
-                    id: emplyoee.id,
-                    email: emplyoee.email,
-                    cpf: emplyoee.cpf,
-                    position: emplyoee.position
-                },
-                secret,
-                { expiresIn: '10m' }
-            );
+    //     if (compareCpf && emplyoee) {
+    //         const token = jwt.sign(
+    //             {
+    //                 id: emplyoee.id,
+    //                 email: emplyoee.email,
+    //                 cpf: emplyoee.cpf,
+    //                 position: emplyoee.position
+    //             },
+    //             secret,
+    //             { expiresIn: '10m' }
+    //         );
 
-            return { token };
-        }
-    }
+    //         return { token };
+    //     }
+    // }
 }
 
 const passwordService = new PasswordService();

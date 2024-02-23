@@ -10,25 +10,25 @@ const Rental = sequelize.define('rentals', {
     primaryKey: true
   },
   customer: {
-    type: DataTypes.STRING(36),
+    type: DataTypes.STRING,
     references: {
       model: 'customers',
       key: 'id'
     }
   },
   vehicle: {
-    type: DataTypes.STRING(36),
+    type: DataTypes.STRING,
     references: {
       model: 'vehicles',
-      key: 'id'
+      key: 'plate'
     }
   },
   startDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false
   },
   endDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false
   },
   rentalDays: {
@@ -53,7 +53,7 @@ const Rental = sequelize.define('rentals', {
 }
 );
 
-Rental.belongsTo(RentalStatus, { foreignKey: 'status' });
+Rental.belongsTo(RentalStatus, { foreignKey: 'status', as: 'rentalStatus'});
 Rental.belongsTo(Customer, { foreignKey: 'customer', as: 'rentalCustomer' });
 Rental.belongsTo(Vehicle, { foreignKey: 'vehicle', as: 'rentalVehicle' });
 
