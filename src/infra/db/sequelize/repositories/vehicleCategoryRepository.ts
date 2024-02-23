@@ -15,11 +15,15 @@ class VehicleCategoryRepository implements IVehicleCategoryRepository {
     async findById(id: string): Promise<IVehicleCategory> {
       const vehicleCategory = await VehicleCategory.findByPk(id);
       if (vehicleCategory) {
+        console.log('tá retornando');
+        
         return {
           id: vehicleCategory.dataValues.id,
           name: vehicleCategory.dataValues.name,
         };
       } else {
+        console.log('vazio');
+        
         return null
       }
     }

@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "..";
 import { VehicleCategory } from "./vehicleCategory";
+import { NOT } from "sequelize/types/deferrable";
 
 const Vehicle = sequelize.define('vehicles', {
   plate: {
@@ -8,11 +9,11 @@ const Vehicle = sequelize.define('vehicles', {
     primaryKey: true
   },
   manufacturer: {
-    type: DataTypes.STRING(15),
+    type: DataTypes.STRING,
     allowNull: false
   },
   model: {
-    type: DataTypes.STRING(15),
+    type: DataTypes.STRING,
     allowNull: false
   },
   year: {
@@ -24,7 +25,7 @@ const Vehicle = sequelize.define('vehicles', {
     allowNull: false
   },
   category: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(36),
     references: {
       model: 'vehicleCategories',
       key: 'id'
@@ -38,7 +39,6 @@ const Vehicle = sequelize.define('vehicles', {
     type: DataTypes.BOOLEAN,
     allowNull: false
   },
-
 },
   {
     timestamps: false

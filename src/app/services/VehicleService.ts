@@ -1,15 +1,14 @@
 import { vehicleRepository } from '../../infra/db/sequelize/repositories/vehicleRepository';
-import { Vehicle } from '../../infra/db/sequelize/models/vehicle';
 
 export interface VehicleRequest {
-    plate: string;
-    manufacturer: string;
-    model: string;
-    year: number;
-    kilometers: number;
-    category: string;
-    hourlyRate: number;
-    isAvailable: boolean;
+  plate: string;
+  manufacturer: string;
+  model: string;
+  year: number;
+  kilometers: number;
+  category: string;
+  hourlyRate: number;
+  isAvailable: boolean;
 }
 
 class VehicleService {
@@ -32,8 +31,8 @@ class VehicleService {
     category,
     hourlyRate,
     isAvailable
-    
-  }) : Promise<VehicleRequest> {
+
+  }): Promise<VehicleRequest> {
     const newVehicle = {
       plate,
       manufacturer,
