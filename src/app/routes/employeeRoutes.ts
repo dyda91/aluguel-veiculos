@@ -1,37 +1,38 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { employeeController } from '../controllers/EmployeeController';
-import { emailMiddleware } from '../middlewares/EmailMiddleware';
-import { cpf_Middleware } from '../middlewares/CPF_Middleware';
-import { licenseCategoryMiddleware } from '../middlewares/LicenseCategoryMiddleware';
-import { authMiddleware } from '../middlewares/AuthMiddleware';
-import { employeePositionMiddleware } from '../middlewares/EmployeePositionMiddleware';
-import { authorizationByManagerMiddleware } from '../middlewares/AuthorizationByManagerMiddleware';
-import { authorizationByAttendantMiddleware } from '../middlewares/AuthorizationByAttendantMiddleware';
+import { validateEmployeeCpfMiddleware } from '../middlewares/employee/ValidateEmployeeCpfMiddleware';
+import { validateEmployeeEmailMiddleware } from '../middlewares/employee/ValidateEmployeeEmailMiddleware';
+import { validateEmployeePositionMiddleware } from '../middlewares/employee/ValidateEmployeePositionMiddleware';
+import { validateLicenseCategoryMiddleware } from '../middlewares/ValidateLicenseCategoryMiddleware';
+import path from 'path';
 
 const employeeRoutes = Router();
 
 // Post
+employeeRoutes.get('/employee', (req: Request, res: Response) => {
+    const caminho = path.resolve(__dirname, '..', 'views', 'employee.ejs');
+    res.render(caminho);
+});
+
 employeeRoutes.post('/employees',
-    emailMiddleware.validateEmail,
-    cpf_Middleware.validateCPF,
-    licenseCategoryMiddleware.validateLicenseCategory,
-    employeePositionMiddleware.validatePosition,
+    validateEmployeeCpfMiddleware.validate,
+    validateEmployeeEmailMiddleware.validate,
+    validateLicenseCategoryMiddleware.validate,
+    validateEmployeePositionMiddleware.validate,
     employeeController.create
 );
 
 // Get
-employeeRoutes.get('/employees',
-    authMiddleware,
-    authorizationByManagerMiddleware.authorization,
+employeeRoutes.get('/employees/all',
+    // authMiddleware,
+    // authorizationByManagerMiddleware.authorization,
     employeeController.findAll
 );
 
 employeeRoutes.get('/employees/:id',
-    authMiddleware,
-    authorizationByAttendantMiddleware.authorization,
+    // authMiddleware,
+    // authorizationByAttendantMiddleware.authorization,
     employeeController.findById
 );
-
-;
 
 export { employeeRoutes };
