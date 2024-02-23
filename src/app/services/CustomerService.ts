@@ -1,18 +1,16 @@
-
 import { customerRepository } from '../../infra/db/sequelize/repositories/customerRepository';
 import { v4 as uuidv4 } from 'uuid';
 import { encrypt } from '../helpers/cryptHelper';
 import bcrypt from 'bcrypt';
 
 export interface CustomerRequest {
-    id: string,
-    name: string,
-    cpf: string,
-    email: string,
-    password: string,
-    phone: string,
-    licenseCategory: string
-
+  id: string,
+  name: string,
+  cpf: string,
+  email: string,
+  password: string,
+  phone: string,
+  licenseCategory: string
 }
 
 class CustomerService {
@@ -21,8 +19,8 @@ class CustomerService {
     return customers
   }
 
-  async findById(customerId: string) {
-    const customer = await customerRepository.findById(customerId);
+  async findById(id: string) {
+    const customer = await customerRepository.findById(id);
     return customer
   }
 
@@ -32,7 +30,8 @@ class CustomerService {
   }
 
   async findByCpf(cpf: string) {
-    const customer = await customerRepository.findById(cpf);
+    const cpfCripto = bcrypt.hashSync(cpf, 11);
+    const customer = await customerRepository.findByCpf(cpfCripto);
     return customer
   }
 
@@ -43,7 +42,7 @@ class CustomerService {
     password,
     phone,
     licenseCategory
-  }) : Promise<CustomerRequest> {
+  }): Promise<CustomerRequest> {
     const encryptPassword = encrypt(password);
     const cpf_Cripto = bcrypt.hashSync(cpf, 11)
     const newCustomer = {
@@ -62,7 +61,7 @@ class CustomerService {
   async passwordUpdate(customerId: string, newPassword: string, confirmNewPassword: string) {
     const encryptNewPassword = encrypt(newPassword);
     const encryptConfirmNewPassword = encrypt(confirmNewPassword);
-    
+
     if (encryptNewPassword === encryptConfirmNewPassword) {
       const customerUpdate = await customerRepository.findById(customerId);
 

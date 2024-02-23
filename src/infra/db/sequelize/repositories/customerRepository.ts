@@ -1,18 +1,11 @@
 import { ICustomerRepository, ICustomer } from '../../../../app/repositories/customerRepository';
 import { Customer } from '../models/customer';
+import bcrypt from 'bcrypt';
+import { LicenseCategory } from '../models/licenseCategory';
 
 class CustomerRepository implements ICustomerRepository {
   async findAll(): Promise<ICustomer[]> {
-    const customer = await Customer.findAll({
-      include: [
-        {
-          model: Customer,
-          attributes: {
-            exclude: ['path']
-          }
-        }
-      ]
-    });
+    const customer = await Customer.findAll();
     return customer.map(item => {
       return {
         id: item.dataValues.id,
@@ -43,8 +36,8 @@ class CustomerRepository implements ICustomerRepository {
     }
   }
 
-  async findByEmail(customerEmail: string): Promise<ICustomer> {
-    const customer = await Customer.findByPk(customerEmail);
+  async findByEmail(email: string): Promise<ICustomer | null> {
+    const customer = await Customer.findOne({ where: { email: email } });
     if (customer) {
       return {
         id: customer.dataValues.id,
@@ -53,27 +46,32 @@ class CustomerRepository implements ICustomerRepository {
         email: customer.dataValues.email,
         password: customer.dataValues.password,
         phone: customer.dataValues.phone,
-        licenseCategory: customer.dataValues.licenseCategory
-      };
+        licenseCategory: customer.dataValues.licenseCategory,
+      }
     } else {
-      return null
+      return null;
     }
   }
 
-  async findByCpf(cpf: string): Promise<ICustomer> {
-    const customer = await Customer.findByPk(cpf);
+  async findByCpf(cpf: string): Promise<ICustomer | null> {
+    const customer = (await customerRepository.findAll()).find(emp => {
+      const compareCpf = bcrypt.compare(cpf, emp.cpf);
+      if (compareCpf) {
+        return emp;
+      }
+    });
     if (customer) {
       return {
-        id: customer.dataValues.id,
-        name: customer.dataValues.name,
-        cpf: customer.dataValues.cpf,
-        email: customer.dataValues.email,
-        password: customer.dataValues.password,
-        phone: customer.dataValues.phone,
-        licenseCategory: customer.dataValues.licenseCategory
-      };
+        id: customer.id,
+        name: customer.name,
+        cpf: customer.cpf,
+        email: customer.email,
+        password: customer.password,
+        phone: customer.phone,
+        licenseCategory: customer.licenseCategory,
+      }
     } else {
-      return null
+      return null;
     }
   }
 
@@ -87,7 +85,6 @@ class CustomerRepository implements ICustomerRepository {
       phone: data.phone,
       licenseCategory: data.licenseCategory
     });
-    console.log(customer);
   }
 
   async passwordUpdate(customer: ICustomer, newPassword: string, confirmNewPassword: string): Promise<void> {
