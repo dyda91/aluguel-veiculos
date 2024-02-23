@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers</title>
+</head>
+
+<body>
+  {{#each customers}}
+    <strong>Id:</strong> {{this.id}} <br>
+    <strong>Name:</strong> {{this.name}} <br>
+    <strong>CPF:</strong> {{this.cpf}} <br>
+    <strong>E-mail:</strong> {{this.email}} <br>
+    <strong>Telefone:</strong> {{this.phone}} <br>
+    <strong>Habilitação:</strong> {{this.licenseCategory}} <br>
+  <br>
+  {{/each}}
+</body>
+
+</html>

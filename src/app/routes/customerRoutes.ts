@@ -1,30 +1,34 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { customerController } from '../controllers/CustomerController';
-import { emailMiddleware } from '../middlewares/EmailMiddleware';
-import { cpf_Middleware } from '../middlewares/CPF_Middleware';
-import { licenseCategoryMiddleware } from '../middlewares/LicenseCategoryMiddleware';
-import { authMiddleware } from '../middlewares/AuthMiddleware';
-import { authorizationByAttendantMiddleware } from '../middlewares/AuthorizationByAttendantMiddleware';
+import { validateCustomerCpfMiddleware } from '../middlewares/customer/ValidateCustomerCpfMiddleware';
+import { validateCustomerEmailMiddleware } from '../middlewares/customer/ValidateCustomerEmailMiddleware';
+import { validateLicenseCategoryMiddleware } from '../middlewares/ValidateLicenseCategoryMiddleware';
+import path from 'path';
 
 const customerRoutes = Router();
 
-// Post
+//Post
+customerRoutes.get('/customer', (req: Request, res: Response) => {
+    const caminho = path.resolve(__dirname, '..', 'views', 'customer.ejs');
+    res.render(caminho);
+});
+
 customerRoutes.post('/customers',
-    emailMiddleware.validateEmail,
-    cpf_Middleware.validateCPF,
-    licenseCategoryMiddleware.validateLicenseCategory,
+    validateCustomerCpfMiddleware.validate,
+    validateCustomerEmailMiddleware.validate,
+    validateLicenseCategoryMiddleware.validate,
     customerController.create
 );
 
 // Get
-customerRoutes.get('/customers',
-    authMiddleware,
-    authorizationByAttendantMiddleware.authorization,
+customerRoutes.get('/customers/all',
+    // authMiddleware,
+    // authorizationByAttendantMiddleware.authorization,
     customerController.findAll
 );
 
 customerRoutes.get('/customers/:id',
-    authMiddleware,
+    // authMiddleware,
     customerController.findById
 );
 
