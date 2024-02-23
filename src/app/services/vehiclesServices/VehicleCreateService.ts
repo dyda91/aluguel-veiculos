@@ -1,4 +1,4 @@
-import { vehicleRepository } from '../../infra/db/sequelize/repositories/vehicleRepository';
+import { vehicleRepository } from "../../../infra/db/sequelize/repositories/vehicleRepository";
 
 export interface VehicleRequest {
   plate: string;
@@ -11,18 +11,8 @@ export interface VehicleRequest {
   isAvailable: boolean;
 }
 
-class VehicleService {
-  async findAll() {
-    const vehicle = await vehicleRepository.findAll();
-    return vehicle
-  }
-
-  async findByPlate(plate: string) {
-    const vehicle = vehicleRepository.findByPlate(plate);
-    return vehicle
-  }
-
-  async create({
+class VehicleCreateService {
+async create({
     plate,
     manufacturer,
     model,
@@ -49,6 +39,6 @@ class VehicleService {
 
 }
 
-const vehicleService = new VehicleService();
+const vehicleCreateService = new VehicleCreateService();
 
-export { vehicleService };
+export { vehicleCreateService };

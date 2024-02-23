@@ -24,7 +24,7 @@ rentalRoutes.get('/rentals/:id',
 // Post
 rentalRoutes.post('/rentals',
     // authMiddleware,
-    rentalController.rentVehicle
+    rentalController.reserveRental
 );
 
 rentalRoutes.post('/rentals/start',

@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { vehicleService } from '../services/VehicleService';
 import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../helpers/createTemplate";
-import { vehicleCategoryService } from '../services/VehicleCategoryService';
+import { vehicleFindAllService } from '../services/vehiclesServices/VehicleFindAllService';
+import { vehicleFindByPlateService } from '../services/vehiclesServices/VehicleFindByPlateService';
+import { vehicleCategoryFindAllService } from '../services/vehiclesCategoryServices/VehicleCategoryFindAllService';
+import { vehicleCreateService } from '../services/vehiclesServices/VehicleCreateService';
 
 class VehicleController {
   async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const vehicles = await vehicleService.findAll();
+      const vehicles = await vehicleFindAllService.findAll();
       res.status(200).format({
         'application/json': () => {
           res.send(vehicles);
@@ -40,7 +42,7 @@ class VehicleController {
   async findByPlate(req: Request, res: Response, next: NextFunction) {
     try {
       const plate = req.params.plate;
-      const vehicle = await vehicleService.findByPlate(plate);
+      const vehicle = await vehicleFindByPlateService.findByPlate(plate);
 
       if (vehicle) {
         res.status(200).format({
@@ -91,10 +93,10 @@ class VehicleController {
         return next();
       }
 
-      const vehicleCategory = (await vehicleCategoryService.findAll()).find(item => item.name === category.toUpperCase())
+      const vehicleCategory = (await vehicleCategoryFindAllService.findAll()).find(item => item.name === category.toUpperCase())
 
       if (vehicleCategory) {
-        const newVehicle = await vehicleService.create({
+        const newVehicle = await vehicleCreateService.create({
           plate,
           manufacturer,
           model,

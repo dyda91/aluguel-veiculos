@@ -1,14 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import { rentalService } from '../services/RentalService';
-import { customerService } from '../services/CustomerService';
-import { vehicleService } from '../services/VehicleService';
 import { parse } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { rentalFindAllService } from '../services/RentalService/RentalFindAllService';
+import { rentalFindByIdService } from '../services/RentalService/RentalFindByIdService';
+import { customerFindByIdService } from '../services/customerServices/CustomerFindByIdService';
+import { vehicleFindByPlateService } from '../services/vehiclesServices/VehicleFindByPlateService';
+import { rentalReserveService } from '../services/RentalService/RentalReserveService';
+import { rentalStartService } from '../services/RentalService/RentalStartService';
+import { rentalCompleteService } from '../services/RentalService/RentalCompleteService';
 
 class RentalController {
   async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const rentals = await rentalService.findAll();
+      const rentals = await rentalFindAllService.findAll();
       res.send(rentals);
       next();
     } catch (error) {
@@ -21,7 +25,7 @@ class RentalController {
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
       const rentalId = req.params.id;
-      const rental = await rentalService.findById(rentalId);
+      const rental = await rentalFindByIdService.findById(rentalId);
       res.send(rental);
       next();
     } catch (error) {
@@ -31,7 +35,7 @@ class RentalController {
     }
   }
 
-  async rentVehicle(req: Request, res: Response, next: NextFunction) {
+  async reserveRental(req: Request, res: Response, next: NextFunction) {
     try {
       const { customerId, vehiclePlate, startDate, endDate, status } = req.body;
 
@@ -40,13 +44,13 @@ class RentalController {
         return next();
       }
 
-      const customer = await customerService.findById(customerId);
+      const customer = await customerFindByIdService.findById(customerId);
       if (!customer) {
         res.status(404).send({ error: 'Cliente não encontrado' });
         return next();
       }
   
-      const vehicle = await vehicleService.findByPlate(vehiclePlate);
+      const vehicle = await vehicleFindByPlateService.findByPlate(vehiclePlate);
       if (!vehicle) {
         res.status(404).send({ error: 'Veículo não encontrado' });
         return next();
@@ -54,7 +58,7 @@ class RentalController {
       
       // const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
       // const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      const rental = await rentalService.create(customer, vehicle, startDate, endDate, status);
+      const rental = await rentalReserveService.reserve(customer, vehicle, startDate, endDate, status);
       res.status(201).send(rental);
       next();
     } catch (error) {
@@ -68,7 +72,7 @@ class RentalController {
     try {
       const { id, startDate, endDate } = req.body;
       // const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalService.startRental(id, startDate, endDate);
+      rentalStartService.startRental(id, startDate, endDate);
       res.status(200).send({ message: 'Veículo retirado da locadora pelo cliente' });
       next();
     } catch (error) {
@@ -81,7 +85,7 @@ class RentalController {
     try {
       const { id, endDate, startDate } = req.body;
       // const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalService.completeRental(id, endDate, startDate);
+      rentalCompleteService.completeRental(id, endDate, startDate);
       res.status(200).send({ message: 'Devolução do veículo concluída com sucesso' });
       next();
     } catch (error) {

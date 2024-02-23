@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { loginService } from '../services/LoginService';
+import { loginSignInCustomerService } from '../services/LoginService/LoginSignInCustomerService';
+import { loginSignInEmployeeService } from '../services/LoginService/LoginSignInEmployeeService';
 
 class LoginController {
     async signInCustomer(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body;
-            const resposta = await loginService.signInCustomer({ email, password });
+            const resposta = await loginSignInCustomerService.signInCustomer({ email, password });
             res.send(resposta);
             next();
         } catch (error) {
@@ -18,7 +19,7 @@ class LoginController {
     async signInEmployee(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body;
-            const resposta = await loginService.signInEmployee({ email, password });
+            const resposta = await loginSignInEmployeeService.signInEmployee({ email, password });
             res.send(resposta);
             next();
         } catch (error) {

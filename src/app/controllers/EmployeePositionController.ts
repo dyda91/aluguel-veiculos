@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeePositionService } from '../services/EmployeePositionService';
+import { employeePositionFindAllService } from '../services/employeePositionServices/EmployeePositionFindAllService';
+import { employeePositionFindByIdService } from '../services/employeePositionServices/EmployeePositionFindByIdService';
+import { employeePositionCreateService } from '../services/employeePositionServices/EmployeePositionCreateService';
 
 class EmployeePositionController {
     async findAll(req: Request, res: Response, next: NextFunction) {
       try {
-        const employeePositions = await employeePositionService.findAll();
+        const employeePositions = await employeePositionFindAllService.findAll();
         res.send(employeePositions);
       } catch (error) {
         console.error(error);
@@ -16,7 +18,7 @@ class EmployeePositionController {
     async findById(req: Request, res: Response, next: NextFunction) {
       try {
         const id = req.params.id;
-        const employeePosition = await employeePositionService.findById(id);
+        const employeePosition = await employeePositionFindByIdService.findById(id);
   
         if (employeePosition) {
           res.send(employeePosition);
@@ -41,7 +43,7 @@ class EmployeePositionController {
         }
 
         const upperCaseName = name.toUpperCase();
-        const newEmployeePosition = await employeePositionService.create({name: upperCaseName});
+        const newEmployeePosition = await employeePositionCreateService.create({name: upperCaseName});
         res.status(201).send(newEmployeePosition);
       } catch (error) {
         console.error(error);

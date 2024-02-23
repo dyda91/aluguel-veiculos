@@ -1,15 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeeService } from '../services/EmployeeService';
 import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../helpers/createTemplate";
-import { licenseCategoryService } from '../services/LicenseCategoryService';
-import { employeePositionService } from '../services/EmployeePositionService';
+import { employeeFindAllService } from '../services/employeeServices/EmployeeFindAllService';
+import { employeeFindByIdService } from '../services/employeeServices/EmployeeFindByIdService';
+import { licenseCategoryFindAllService } from '../services/licenseCategoryServices/LicenseCategoryFindAllService';
+import { employeePositionFindAllService } from '../services/employeePositionServices/EmployeePositionFindAllService';
+import { employeeCreateService } from '../services/employeeServices/EmployeeCreateService';
 
 class EmployeeController {
   async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const employees = await employeeService.findAll();
+      const employees = await employeeFindAllService.findAll();
       res.status(200).format({
         'application/json': () => {
           res.send(employees);
@@ -41,7 +43,7 @@ class EmployeeController {
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
       const employeeId = req.params.id;
-      const employee = await employeeService.findById(employeeId);
+      const employee = await employeeFindByIdService.findById(employeeId);
 
       if (employee) {
         res.status(200).format({
@@ -96,11 +98,11 @@ class EmployeeController {
 
       const upperCaseName = name.toUpperCase();
       const lowerCaseEmail = email.toLowerCase();
-      const habilitation = (await licenseCategoryService.findAll()).find(item => item.name === licenseCategory.toUpperCase());
-      const employeePosition = (await employeePositionService.findAll()).find(item => item.name === position.toUpperCase());
+      const habilitation = (await licenseCategoryFindAllService.findAll()).find(item => item.name === licenseCategory.toUpperCase());
+      const employeePosition = (await employeePositionFindAllService.findAll()).find(item => item.name === position.toUpperCase());
 
       if (habilitation && employeePosition) {
-        const newEmployee = await employeeService.create({
+        const newEmployee = await employeeCreateService.create({
           name: upperCaseName,
           cpf,
           email: lowerCaseEmail,

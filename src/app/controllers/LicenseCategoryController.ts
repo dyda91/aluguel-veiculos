@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { licenseCategoryService } from '../services/LicenseCategoryService';
+import { licenseCategoryFindAllService } from '../services/licenseCategoryServices/LicenseCategoryFindAllService';
+import { licenseCategoryFindByIdService } from '../services/licenseCategoryServices/LicenseCategoryFindByIDService';
+import { licenseCategoryCreateService } from '../services/licenseCategoryServices/LicenseCategoryCreateService';
 
 class LicenseCategoryController {
     async findAll(req: Request, res: Response, next: NextFunction) {
       try {
-        const licenseCategories = await licenseCategoryService.findAll();
+        const licenseCategories = await licenseCategoryFindAllService.findAll();
         res.send(licenseCategories);
       } catch (error) {
         console.error(error);
@@ -16,7 +18,7 @@ class LicenseCategoryController {
     async findById(req: Request, res: Response, next: NextFunction) {
       try {
         const id = req.params.id;
-        const licenseCategory = await licenseCategoryService.findById(id);
+        const licenseCategory = await licenseCategoryFindByIdService.findById(id);
   
         if (licenseCategory) {
           res.send(licenseCategory);
@@ -41,7 +43,7 @@ class LicenseCategoryController {
         }
         
         const upperCaseName = name.toUpperCase();
-        const newLicenseCategory = await licenseCategoryService.create({name: upperCaseName});
+        const newLicenseCategory = await licenseCategoryCreateService.create({name: upperCaseName});
         res.status(201).send(newLicenseCategory);
       } catch (error) {
         console.error(error);

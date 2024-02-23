@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerService } from '../services/CustomerService';
+import { customerFindAllService } from '../services/customerServices/CustomerFindAllService';
+import { customerFindByIdService } from '../services/customerServices/CustomerFindByIdService';
+import { customerCreateService } from '../services/customerServices/CustomerCreateService';
+import { licenseCategoryFindAllService } from '../services/licenseCategoryServices/LicenseCategoryFindAllService';
 import path from 'path';
 import handlebars from 'handlebars';
 import { createTemplate } from "../helpers/createTemplate";
-import { licenseCategoryService } from '../services/LicenseCategoryService';
 
 class CustomerController {
   async findAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const customers = await customerService.findAll();
+      const customers = await customerFindAllService.findAll();
       res.status(200).format({
         'application/json': () => {
           res.send(customers);
@@ -40,7 +42,7 @@ class CustomerController {
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
       const customerId = req.params.id;
-      const customer = await customerService.findById(customerId);
+      const customer = await customerFindByIdService.findById(customerId);
 
       if (customer) {
         res.status(200).format({
@@ -93,10 +95,10 @@ class CustomerController {
 
       const upperCaseName = name.toUpperCase();
       const lowerCaseEmail = email.toLowerCase();
-      const habilitation = (await licenseCategoryService.findAll()).find(item => item.name === licenseCategory.toUpperCase());
+      const habilitation = (await licenseCategoryFindAllService.findAll()).find(item => item.name === licenseCategory.toUpperCase());
 
       if (habilitation) {
-        const newCustomer = await customerService.create({
+        const newCustomer = await customerCreateService.create({
           name: upperCaseName,
           cpf,
           email: lowerCaseEmail,

@@ -1,13 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { passwordService } from '../services/PasswordService';
-import { customerService } from '../services/CustomerService';
-import { employeeService } from '../services/EmployeeService';
+import { customerForgotPasswordService } from '../services/customerServices/CustomerForgotPasswordService';
+import { employeeForgotPasswordService } from '../services/employeePositionServices/EmployeeForgotPasswordService';
+import { customerFindByIdService } from '../services/customerServices/CustomerFindByIdService';
+import { customerPasswordUpdateService } from '../services/customerServices/CustomerPasswordUpdateService';
+import { employeePasswordUpdateService } from '../services/employeeServices/EmployeePasswordUpdateService';
+import { employeeFindByIdService } from '../services/employeeServices/EmployeeFindByIdService';
 
 class PasswordController {
     async forgotCustomerPassword(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, cpf } = req.body;
-            const reply = await passwordService.forgotCustomerPassword({ email, cpf });
+            const reply = await customerForgotPasswordService.forgotPassword({ email, cpf });
             res.send(reply);
             next();
         } catch (error) {
@@ -17,28 +20,28 @@ class PasswordController {
         }
     }
 
-    // async forgotEmployeePassword(req: Request, res: Response, next: NextFunction) {
-    //     try {
-    //         const { email, cpf } = req.body;
-    //         // const reply = await passwordService.forgotEmployeePassword({ email, cpf });
-    //         res.send(reply);
-    //         next();
-    //     } catch (error) {
-    //         console.error(error);
-    //         res.status(500).send({ error: 'Erro interno do servidor' });
-    //         next(error);
-    //     }
-    // }
+    async forgotEmployeePassword(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { email, cpf } = req.body;
+            const reply = await employeeForgotPasswordService.forgotPassword({ email, cpf });
+            res.send(reply);
+            next();
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ error: 'Erro interno do servidor' });
+            next(error);
+        }
+    }
 
     async changeCustomerPassword(req: Request, res: Response, next: NextFunction) {
         try {
             const { newPassword, confirmNewPassword } = req.body;
             const id = req.params.id;
 
-            const customer = await customerService.findById(id);
+            const customer = await customerFindByIdService.findById(id);
 
             if (customer) {
-                await customerService.passwordUpdate(id, newPassword, confirmNewPassword);
+                await customerPasswordUpdateService.passwordUpdate(id, newPassword, confirmNewPassword);
                 res.status(200).send({ message: 'Senha atualizada com sucesso!' });
             }
 
@@ -59,10 +62,10 @@ class PasswordController {
             const { newPassword, confirmNewPassword } = req.body;
             const id = req.params.id;
             
-            const employee = await employeeService.findById(id);
+            const employee = await employeeFindByIdService.findById(id);
 
             if (employee) {
-                await employeeService.passwordUpdate(id, newPassword, confirmNewPassword);
+                await employeePasswordUpdateService.passwordUpdate(id, newPassword, confirmNewPassword);
                 res.status(200).send({ message: 'Senha atualizada com sucesso!' });
             }
 
