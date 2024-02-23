@@ -9,12 +9,17 @@ export interface EmployeePositionRequest {
 class EmployeePositionService {
     async findAll() {
         const employeePosition = await employeePositionRepository.findAll();
-        return employeePosition
+        return employeePosition;
     }
 
     async findById(id: string) {
         const employeePosition = await employeePositionRepository.findById(id);
-        return employeePosition
+        return employeePosition;
+    }
+
+    async findByName(name: string) {
+        const employeePosition = await employeePositionRepository.findByName(name);
+        return employeePosition;
     }
 
     async create({

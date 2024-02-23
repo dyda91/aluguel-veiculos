@@ -1,17 +1,27 @@
+import { log } from 'handlebars';
 import { IEmployee, IEmployeeRepository } from '../../../../app/repositories/employeeRepository';
 import { Employee } from '../models/employee';
+import { EmployeePosition } from '../models/employeePosition';
+import { LicenseCategory } from '../models/licenseCategory';
+import bcrypt from 'bcrypt';
 
 class EmployeeRepository implements IEmployeeRepository {
   async findAll(): Promise<IEmployee[]> {
     const employee = await Employee.findAll({
       include: [
         {
-          model: Employee,
+            model: LicenseCategory, as: 'employeeLicenseCategory',
+            attributes: {
+                exclude: ['id']
+            }
+        },
+        {
+          model: EmployeePosition, as: 'employeePosition',
           attributes: {
-            exclude: ['path']
+              exclude: ['id']
           }
-        }
-      ]
+      }
+    ]
     });
     return employee.map(item => {
       return {
@@ -47,7 +57,7 @@ class EmployeeRepository implements IEmployeeRepository {
   }
 
   async findByEmail(email: string): Promise<IEmployee | null> {
-    const employee = await Employee.findByPk(email);
+    const employee = await Employee.findOne({ where: { email: email } });
     if (employee) {
       return {
         id: employee.dataValues.id,
@@ -65,17 +75,22 @@ class EmployeeRepository implements IEmployeeRepository {
   }
 
   async findByCpf(cpf: string): Promise<IEmployee | null> {
-    const employee = await Employee.findByPk(cpf);
+    const employee = (await employeeRepository.findAll()).find(emp => {
+      const compareCpf = bcrypt.compare(cpf, emp.cpf);
+      if (compareCpf) {
+        return emp;
+      } 
+    });
     if (employee) {
       return {
-        id: employee.dataValues.id,
-        name: employee.dataValues.name,
-        cpf: employee.dataValues.cpf,
-        email: employee.dataValues.email,
-        password: employee.dataValues.password,
-        phone: employee.dataValues.phone,
-        licenseCategory: employee.dataValues.licenseCategory,
-        position: employee.dataValues.position
+        id: employee.id,
+        name: employee.name,
+        cpf: employee.cpf,
+        email: employee.email,
+        password: employee.password,
+        phone: employee.phone,
+        licenseCategory: employee.licenseCategory,
+        position: employee.position
       }
     } else {
       return null;
@@ -103,13 +118,13 @@ class EmployeeRepository implements IEmployeeRepository {
   async create(data: IEmployee): Promise<void> {
     const employee = await Employee.create({
       id: data.id,
-        name: data.name,
-        cpf: data.cpf,
-        email: data.email,
-        password: data.password,
-        phone: data.phone,
-        licenseCategory: data.licenseCategory,
-        position: data.position
+      name: data.name,
+      cpf: data.cpf,
+      email: data.email,
+      password: data.password,
+      phone: data.phone,
+      licenseCategory: data.licenseCategory,
+      position: data.position
     });
     console.log(employee);
   }

@@ -9,34 +9,34 @@ const Employee = sequelize.define('employees', {
         primaryKey: true
     },
     name: {
-        type: DataTypes.STRING(60),
+        type: DataTypes.STRING,
         allowNull: false
     },
     cpf: {
-        type: DataTypes.STRING(11),
+        type: DataTypes.STRING,
         allowNull: false
     },
     email: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING,
         allowNull: false
     },
     password: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING,
         allowNull: false
     },
     phone: {
-        type: DataTypes.STRING(15),
+        type: DataTypes.STRING,
         allowNull: false
     },
     licenseCategory: {
-        type: DataTypes.STRING(2),
+        type: DataTypes.STRING(36),
         references: {
             model: 'licenseCategories',
             key: 'id'
         }
     },
     position: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(36),
         references: {
             model: 'employeePositions',
             key: 'id'
@@ -49,6 +49,6 @@ const Employee = sequelize.define('employees', {
 );
 
 Employee.belongsTo(LicenseCategory, { foreignKey: 'licenseCategory', as: 'employeeLicenseCategory'});
-Employee.belongsTo(EmployeePosition, { foreignKey: 'position' });
+Employee.belongsTo(EmployeePosition, { foreignKey: 'position', as: 'employeePosition' });
 
 export { Employee };

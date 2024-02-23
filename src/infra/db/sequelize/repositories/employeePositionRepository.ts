@@ -24,6 +24,18 @@ class EmployeePositionRepository implements IEmployeePositionRepository {
       }
     }
 
+    async findByName(name: string): Promise<IEmployeePosition> {
+      const employeePosition = await EmployeePosition.findOne({ where: { name: name } });
+      if (employeePosition) {
+        return {
+          id: employeePosition.dataValues.id,
+          name: employeePosition.dataValues.name,
+        };
+      } else {
+        return null
+      }
+    }
+
     async create(data: IEmployeePosition): Promise<void> {
         const employeePosition = await EmployeePosition.create({
           id: data.id,
