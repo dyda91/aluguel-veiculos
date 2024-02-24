@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeeRepository } from "../../infra/db/sequelize/repositories/employeeRepository";
+import { employeeRepository } from "../../../infra/db/sequelize/repositories/employeeRepository";
 import bcrypt from 'bcrypt';
 
 class EmployeeForgottenPasswordRequestMiddleware {

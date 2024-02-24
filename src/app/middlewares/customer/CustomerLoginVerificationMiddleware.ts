@@ -1,19 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
-import { employeeRepository } from "../../infra/db/sequelize/repositories/employeeRepository";
-import { encrypt } from '../helpers/cryptHelper';
+import { customerRepository } from "../../../infra/db/sequelize/repositories/customerRepository";
+import { encrypt } from '../../helpers/cryptHelper';
 
-class EmployeeLoginVerificationMiddleware {
+class CustomerLoginVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body;
+            const customer = await customerRepository.findByEmail(email);
             const passwordProvided = encrypt(password);
-            const employee = await employeeRepository.findByEmail(email);
 
-            if (!employee) {
+            if (!customer) {
                 res.status(400).json({ error: 'Email ou Senha inválidos' });
             }
 
-            else if (employee.password != passwordProvided) {
+            else if (customer.password != passwordProvided) {
                 res.status(400).json({ error: 'Email ou Senha inválidos' });
             }
 
@@ -28,6 +28,6 @@ class EmployeeLoginVerificationMiddleware {
     }
 }
 
-const employeeLoginVerificationMiddleware = new EmployeeLoginVerificationMiddleware();
+const customerLoginVerificationMiddleware = new CustomerLoginVerificationMiddleware();
 
-export { employeeLoginVerificationMiddleware }
+export { customerLoginVerificationMiddleware }

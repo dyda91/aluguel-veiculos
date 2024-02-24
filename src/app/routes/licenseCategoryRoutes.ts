@@ -1,13 +1,28 @@
 import { Router } from 'express';
 import { licenseCategoryController } from '../controllers/LicenseCategoryController';
+import { authMiddleware } from '../middlewares/AuthMiddleware';
+import { authorizationByManagerMiddleware } from '../middlewares/employee/AuthorizationForManagerMiddleware';
 
 const licenseCategoryRoutes = Router();
 
 //Post
-licenseCategoryRoutes.post('/licenseCategory', licenseCategoryController.create);
+licenseCategoryRoutes.post('/licenseCategory',
+    authMiddleware.auth,
+    authorizationByManagerMiddleware.authorization,
+    licenseCategoryController.create
+);
 
 //Get
-licenseCategoryRoutes.get('/licenseCategory', licenseCategoryController.findAll);
-licenseCategoryRoutes.get('/licenseCategory/:id', licenseCategoryController.findById);
+licenseCategoryRoutes.get('/licenseCategory',
+    authMiddleware.auth,
+    authorizationByManagerMiddleware.authorization,
+    licenseCategoryController.findAll
+);
+
+licenseCategoryRoutes.get('/licenseCategory/:id',
+    authMiddleware.auth,
+    authorizationByManagerMiddleware.authorization,
+    licenseCategoryController.findById
+);
 
 export { licenseCategoryRoutes };

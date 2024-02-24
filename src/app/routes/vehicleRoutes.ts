@@ -1,12 +1,14 @@
 import { Router, Request, Response } from "express";
 import { vehicleController } from "../controllers/VehicleController";
 import { authMiddleware } from "../middlewares/AuthMiddleware";
-import { authorizationByManagerMiddleware } from "../middlewares/AuthorizationByManagerMiddleware";
-import { authorizationByAttendantMiddleware } from "../middlewares/AuthorizationByAttendantMiddleware";
+import { authorizationByManagerMiddleware } from "../middlewares/employee/AuthorizationForManagerMiddleware";
+import { authorizationByAttendantMiddleware } from "../middlewares/employee/AuthorizationForAttendantMiddleware";
 import { validatePlateVehicleMiddleware } from "../middlewares/vehicle/ValidatePlateVehicleMiddleware";
 import { validPlateFormatMiddleware } from "../middlewares/vehicle/ValidatePlateFormatMiddleware";
 import { validateVehicleCategoryMiddleware } from "../middlewares/vehicle/ValidateVehicleCategoryMiddleware";
 import path from "path"
+
+
 
 const vehicleRoutes = Router();
 
@@ -17,8 +19,8 @@ vehicleRoutes.get('/vehicle', (req: Request, res: Response) => {
 });
 
 vehicleRoutes.post('/vehicles',
-    // authMiddleware,
-    // authorizationByManagerMiddleware.authorization,
+    authMiddleware.auth,
+    authorizationByManagerMiddleware.authorization,
     validPlateFormatMiddleware.validate,
     validatePlateVehicleMiddleware.validate,
     validateVehicleCategoryMiddleware.validate,
@@ -27,14 +29,14 @@ vehicleRoutes.post('/vehicles',
 
 // Get
 vehicleRoutes.get('/vehicles/all',
-    // authMiddleware,
-    // authorizationByAttendantMiddleware.authorization,
+    authMiddleware.auth,
+    authorizationByAttendantMiddleware.authorization,
     vehicleController.findAll
 );
 
 vehicleRoutes.get('/vehicles/:plate',
-    // authMiddleware,
-    // authorizationByAttendantMiddleware.authorization,
+    authMiddleware.auth,
+    authorizationByAttendantMiddleware.authorization,
     vehicleController.findByPlate
 );
 

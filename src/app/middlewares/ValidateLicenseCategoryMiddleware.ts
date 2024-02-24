@@ -5,9 +5,10 @@ class ValidateLicenseCategoryMiddleware {
   async validate(req: Request, res: Response, next: NextFunction) {
     try {
       const { licenseCategory } = req.body;
-      // const employeePosition = await licenseCategoryRepository.findById(licenseCategory);
-      const employeePosition = (await licenseCategoryRepository.findAll()).find(item => item.name === licenseCategory.toUpperCase());
-      
+      const employeePosition = ((await licenseCategoryRepository.findAll()).
+        find(item => item.name === licenseCategory.toUpperCase())
+      );
+
 
       if (!employeePosition) {
         return res.status(400).json({ error: 'Habilitação inválida' });

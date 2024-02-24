@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { customerRepository } from '../../infra/db/sequelize/repositories/customerRepository';
+import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
 import bcrypt from 'bcrypt';
 
 
