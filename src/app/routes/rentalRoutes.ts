@@ -2,20 +2,20 @@ import { Router } from "express";
 import { rentalController } from "../controllers/RentalController";
 import { authMiddleware } from "../middlewares/AuthMiddleware";
 import { existingRentalMiddleware } from "../middlewares/ExistingRentalMiddleware";
-import { authorizationByAttendantMiddleware } from "../middlewares/AuthorizationByAttendantMiddleware";
-import { authorizationByManagerMiddleware } from "../middlewares/AuthorizationByManagerMiddleware";
+import { authorizationByAttendantMiddleware } from "../middlewares/employee/AuthorizationForAttendantMiddleware";
+import { authorizationByManagerMiddleware } from "../middlewares/employee/AuthorizationForManagerMiddleware";
 
 const rentalRoutes = Router();
 
 // Get
 rentalRoutes.get('/rentals',
-    // authMiddleware,
+    authMiddleware.auth,
     // authorizationByManagerMiddleware.authorization,
     rentalController.findAll
 );
 
 rentalRoutes.get('/rentals/:id',
-    // authMiddleware,
+    authMiddleware.auth,
     // authorizationByAttendantMiddleware.authorization,
     // existingRentalMiddleware.check,
     rentalController.findById
@@ -23,19 +23,19 @@ rentalRoutes.get('/rentals/:id',
 
 // Post
 rentalRoutes.post('/rentals',
-    // authMiddleware,
+    authMiddleware.auth,
     rentalController.reserveRental
 );
 
 rentalRoutes.post('/rentals/start',
-    // authMiddleware,
+    authMiddleware.auth,
     // authorizationByAttendantMiddleware.authorization,
     // existingRentalMiddleware.check,
     rentalController.startRental
 );
 
 rentalRoutes.post('/rentals/complete',
-    // authMiddleware,
+    authMiddleware.auth,
     // authorizationByAttendantMiddleware.authorization,
     // existingRentalMiddleware.check,
     rentalController.completeRental

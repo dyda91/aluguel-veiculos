@@ -75,8 +75,6 @@ class CustomerController {
       } else {
         res.status(404).send({ error: 'Cliente não encontrado' });
       }
-
-      next();
     } catch (error) {
       console.error(error);
       res.status(500).send({ error: 'Erro interno do servidor' });
