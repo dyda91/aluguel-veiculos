@@ -42,7 +42,7 @@ class RentalReserveService {
       endDate: stringEndDate,
       rentalDays,
       rentalAmount,
-      status
+      status: "PENDING"
     };
 
     await rentalRepository.create(rental);
@@ -52,16 +52,13 @@ class RentalReserveService {
 
   private calculateRentalDays(startDate: Date, endDate: Date): number {
     const oneDay = 24 * 60 * 60 * 1000;
-    // console.log(endDate);
-    const diffDays = 3
-    // Math.round(Math.abs((endDate.getTime() - startDate.getTime()) / oneDay));
+    const diffDays = Math.round(Math.abs((endDate.getTime() - startDate.getTime()) / oneDay));
     return diffDays + 1;
   }
 
   private calculateRentalAmount(hourlyRate: number, rentalDays: number, startDate: Date, endDate: Date): number {
     const oneHour = 60 * 60 * 1000;
-    const hoursUsed = 2
-    // (endDate.getTime() - startDate.getTime()) / oneHour;
+    const hoursUsed = (endDate.getTime() - startDate.getTime()) / oneHour;
     const roundedHours = Math.ceil(hoursUsed);
 
     return hourlyRate * roundedHours * rentalDays;

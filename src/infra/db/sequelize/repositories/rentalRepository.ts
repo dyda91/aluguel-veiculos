@@ -87,6 +87,7 @@ class RentalRepository implements IRentalRepository {
   }
 
   async updateRentalStatus(id: string, newStatus: string): Promise<void> {
+    console.log(typeof newStatus, newStatus)
     await Rental.update({ status: newStatus }, { where: { id } });
   }
 

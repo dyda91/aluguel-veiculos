@@ -56,9 +56,9 @@ class RentalController {
         return next();
       }
       
-      // const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      // const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      const rental = await rentalReserveService.reserve(customer, vehicle, startDate, endDate, status);
+      const formattedStartDate = parse(startDate, "dd-MM-yyyy HH:mm", new Date());
+      const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
+      const rental = await rentalReserveService.reserve(customer, vehicle, formattedStartDate, formattedEndDate, status);
       res.status(201).send(rental);
       next();
     } catch (error) {
@@ -70,9 +70,10 @@ class RentalController {
 
   async startRental(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id, startDate, endDate } = req.body;
-      // const formattedStartDate = parse(startDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalStartService.startRental(id, startDate, endDate);
+      const { id, startDate } = req.body;
+      console.log("Data inicial formatada no controller",startDate)
+      const formattedStartDate = parse(startDate, "dd-MM-yyyy HH:mm", new Date());    
+      rentalStartService.startRental(id, formattedStartDate);
       res.status(200).send({ message: 'Veículo retirado da locadora pelo cliente' });
       next();
     } catch (error) {
@@ -84,8 +85,13 @@ class RentalController {
   async completeRental(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, endDate, startDate } = req.body;
-      // const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
-      rentalCompleteService.completeRental(id, endDate, startDate);
+      const formattedStartDate = parse(startDate, "dd-MM-yyyy HH:mm", new Date());
+      const formattedEndDate = parse(endDate, 'dd-MM-yyyy HH:mm', new Date(), { locale: ptBR });
+
+      console.log("Data inicial formatada no controller",formattedStartDate)
+      console.log("Data final formatada no controller",formattedEndDate)
+
+      rentalCompleteService.completeRental(id, formattedEndDate, formattedStartDate);
       res.status(200).send({ message: 'Devolução do veículo concluída com sucesso' });
       next();
     } catch (error) {

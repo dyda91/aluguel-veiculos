@@ -88,7 +88,7 @@ class VehicleController {
     try {
       const { plate, manufacturer, model, year, kilometers, category, hourlyRate } = req.body;
 
-      if (!plate || !manufacturer || !model || !year || !kilometers || !category || hourlyRate) {
+      if (!plate || !manufacturer || !model || !year || !kilometers || !category || !hourlyRate) {
         res.status(400).send({ error: 'Necessário preencher todos os campos' });
         return next();
       }

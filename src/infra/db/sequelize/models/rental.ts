@@ -24,11 +24,11 @@ const Rental = sequelize.define('rentals', {
     }
   },
   startDate: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     allowNull: false
   },
   endDate: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     allowNull: false
   },
   rentalDays: {
@@ -36,14 +36,14 @@ const Rental = sequelize.define('rentals', {
     allowNull: false
   },
   rentalAmount: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   status: {
     type: DataTypes.STRING(36),
     references: {
       model: 'rentalstatuses',
-      key: 'id'
+      key: 'status'
     }
   }
 

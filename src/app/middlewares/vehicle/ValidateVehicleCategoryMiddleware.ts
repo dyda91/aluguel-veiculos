@@ -3,10 +3,20 @@ import { vehicleCategoryRepository } from '../../../infra/db/sequelize/repositor
 
 class ValidateVehicleCategoryMiddleware {
   async validate(req: Request, res: Response, next: NextFunction) {
-     try {
+    try {
       const category = req.body.category;
-      
-      const vehicleCategory = (await vehicleCategoryRepository.findAll()).find(item => item.name === category.toUpperCase())
+
+      if (!category) {
+        return res.status(400).json({ error: 'Categoria não especificada' });
+      }
+
+      const vehicleCategories = await vehicleCategoryRepository.findAll();
+
+      if (!vehicleCategories || vehicleCategories.length === 0) {
+        return res.status(500).json({ error: 'Não foi possível encontrar categorias de veículos' });
+      }
+
+      const vehicleCategory = vehicleCategories.find(item => item.name === category.toUpperCase());
 
       if (!vehicleCategory) {
         return res.status(400).json({ error: 'Categoria inválida' });

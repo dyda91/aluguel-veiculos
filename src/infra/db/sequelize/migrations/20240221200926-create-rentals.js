@@ -1,6 +1,5 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('rentals', {
@@ -23,11 +22,11 @@ module.exports = {
         }
       },
       startDate: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
         allowNull: false
       },
       endDate: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
         allowNull: false
       },
       rentalDays: {
@@ -39,10 +38,10 @@ module.exports = {
         allowNull: false
       },
       status: {
-        type: Sequelize.STRING(36),
+        type: Sequelize.STRING,
         references: {
           model: 'rentalstatuses',
-          key: 'id'
+          key: 'status'
         }
       }
     });
