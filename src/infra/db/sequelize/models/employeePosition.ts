@@ -8,7 +8,8 @@ const EmployeePosition = sequelize.define('employeePositions', {
     },
     name: {
         type: DataTypes.STRING(20),
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 },
     {

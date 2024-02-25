@@ -8,7 +8,8 @@ const LicenseCategory = sequelize.define('licenseCategories', {
     },
     name: {
         type: DataTypes.STRING(2),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
 },
     {

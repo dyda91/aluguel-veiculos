@@ -8,7 +8,8 @@ const VehicleCategory = sequelize.define('vehicleCategories', {
     },
     name: {
         type: DataTypes.STRING(16),
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
 },
     {
