@@ -19,13 +19,18 @@ loginRoutes.get('/login/employee', (req: Request, res: Response) => {
 
 //Post
 loginRoutes.post('/login/customer',
-    customerLoginVerificationMiddleware.execute,
-    loginController.signInCustomer
+    customerLoginVerificationMiddleware.execute, (req: Request, res: Response) => {
+        loginController.signInCustomer;
+        res.redirect('/rentals/reserve');
+    }
 );
 
 loginRoutes.post('/login/employee',
-    employeeLoginVerificationMiddleware.execute,
-    loginController.signInEmployee
-)
+    employeeLoginVerificationMiddleware.execute, (req: Request, res: Response) => {
+        loginController.signInEmployee
+        res.redirect('/rentals/start');
+
+    }
+);
 
 export { loginRoutes };

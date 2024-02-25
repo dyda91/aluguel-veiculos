@@ -3,20 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Customer</title>
+  <title>SingIn</title>
 </head>
 <body>
   <h1>Acesse sua conta</h1>
   <form action="/login/customer" method="post">
     <section>
         <label for="email">E-mail</label>
+        <br>
         <input id="email" name="email" type="email" autocomplete="email" required autofocus>
     </section>
+    <br>
     <section>
         <label for="current-password">Senha</label>
+        <br>
         <input id="current-password" name="password" type="password" autocomplete="current-password" required>
     </section>
+    <br>
     <button type="submit">Entrar</button>
+</form>
+<br>
+<form action="/password/customer/forgot">
+  <button type="submit">Esqueci a Senha</button>
 </form>
 </body>
 </html>

@@ -3,6 +3,7 @@ import { vehicleRoutes } from './vehicleRoutes';
 import { rentalRoutes } from './rentalRoutes';
 import { customerRoutes } from './customerRoutes';
 import { loginRoutes } from './loginRoutes';
+import { logoutRoutes } from './logoutRoutes';
 import { employeeRoutes } from './employeeRoutes';
 import { passwordRoutes } from './passwordRoutes';
 import { licenseCategoryRoutes } from './licenseCategoryRoutes';
@@ -16,7 +17,8 @@ routes.use(
     vehicleRoutes, 
     rentalRoutes, 
     customerRoutes, 
-    loginRoutes, 
+    loginRoutes,
+    logoutRoutes, 
     employeeRoutes, 
     passwordRoutes, 
     licenseCategoryRoutes,

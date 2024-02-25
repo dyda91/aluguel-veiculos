@@ -11,16 +11,17 @@ class CustomerLoginVerificationMiddleware {
             const passwordProvided = encrypt(password);
 
             if (!customer) {
-                res.status(400).json({ error: 'Email ou Senha inválidos' });
+                res.redirect('/login/customer');
             }
 
             else if (customer.password != passwordProvided) {
-                res.status(400).json({ error: 'Email ou Senha inválidos' });
+                res.redirect('/login/customer');
             }
 
             else {
                 next();
             }
+
         } catch (error) {
             console.error(AppError);
             res.status(500).json({ error: 'Erro interno do servidor' });
