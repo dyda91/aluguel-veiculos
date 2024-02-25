@@ -37,7 +37,8 @@ class RentalController {
 
   async reserveRental(req: Request, res: Response, next: NextFunction) {
     try {
-      const { customerId, vehiclePlate, startDate, endDate, status } = req.body;
+      const { customerId, vehiclePlate, startDate, endDate } = req.body;
+      const status = "PENDING";
 
       if (!customerId || !vehiclePlate || !startDate || !endDate) {
         res.status(400).send({ error: 'Necessário preencher todos os campos' });

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserva de Veículo</title>
+</head>
+
+<body>
+  <h1>Reserva</h1>
+  <form action="/rentals/reserve" method="post">
+    <section>
+      <label for="customer-id"><strong>Id do Cliente</strong></label>
+      <br>
+      <input id="customer-id" name="customerId" type="text" autocomplete="customer-id" required>
+    </section>
+    <br>
+    <section>
+      <label for="vehicle-plate"><strong>Placa do Veículo</strong></label>
+      <br>
+      <input id="vehicle-plate" name="vehiclePlate" type="text" autocomplete="vehicle-plate" required>
+    </section>
+    <br>
+    <section>
+      <label for="start-date"><strong>Data de Inicio</strong></label>
+      <br>
+      <input id="start-date" name="startDate" type="date" autocomplete="start-date" required>
+    </section>
+    <br>
+    <section>
+      <label for="end-date"><strong>Data de Entrega</strong></label>
+      <br>
+      <input id="end-date" name="endDate" type="date" autocomplete="end-date" required>
+    </section>
+    <br>
+    <button type="submit">Cadastrar</button>
+  </form>
+  <br>
+  <form action="/logout/customer" method="get">
+    <button type="submit">Logout</button>
+  </form>
+</body>
+
+</html>
