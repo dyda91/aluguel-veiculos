@@ -1,10 +1,11 @@
 import { Router, Request, Response } from "express";
 import { rentalController } from "../controllers/RentalController";
-import { authMiddleware } from "../middlewares/AuthMiddleware";
+import { employeeAuthCookieMiddleware } from "../middlewares/employee/EmployeeAuthCookieMiddleware";
 import { existingRentalMiddleware } from "../middlewares/ExistingRentalMiddleware";
 import { authorizationByAttendantMiddleware } from "../middlewares/employee/AuthorizationForAttendantMiddleware";
 import { customerAuthCookieMiddleware } from "../middlewares/customer/CustomerAuthCookieMiddleware";
 import path from 'path';
+
 
 
 const rentalRoutes = Router();
@@ -21,14 +22,14 @@ rentalRoutes.post('/rentals/reserve', customerAuthCookieMiddleware.auth, (req: R
 });
 
 rentalRoutes.post('/rentals/start',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     existingRentalMiddleware.check,
     rentalController.startRental
 );
 
 rentalRoutes.post('/rentals/complete',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     existingRentalMiddleware.check,
     rentalController.completeRental

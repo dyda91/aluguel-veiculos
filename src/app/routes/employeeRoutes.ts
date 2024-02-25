@@ -4,11 +4,12 @@ import { validateEmployeeCpfMiddleware } from '../middlewares/employee/ValidateE
 import { validateEmployeeEmailMiddleware } from '../middlewares/employee/ValidateEmployeeEmailMiddleware';
 import { validateEmployeePositionMiddleware } from '../middlewares/employee/ValidateEmployeePositionMiddleware';
 import { validateLicenseCategoryMiddleware } from '../middlewares/ValidateLicenseCategoryMiddleware';
-import { authMiddleware } from '../middlewares/AuthMiddleware';
+import { employeeAuthCookieMiddleware } from '../middlewares/employee/EmployeeAuthCookieMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee/AuthorizationForManagerMiddleware';
 import { authorizationByAttendantMiddleware } from '../middlewares/employee/AuthorizationForAttendantMiddleware';
 import { validateEmployeeParamsIdMiddleware } from '../middlewares/employee/ValidateEmployeeParamsIdMiddleware';
 import path from 'path';
+
 
 const employeeRoutes = Router();
 
@@ -19,7 +20,7 @@ employeeRoutes.get('/employee', (req: Request, res: Response) => {
 });
 
 employeeRoutes.post('/employees',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
     validateEmployeeCpfMiddleware.validate,
     validateEmployeeEmailMiddleware.validate,
@@ -30,13 +31,13 @@ employeeRoutes.post('/employees',
 
 // Get
 employeeRoutes.get('/employees/all',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
     employeeController.findAll
 );
 
 employeeRoutes.get('/employees/:id',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     validateEmployeeParamsIdMiddleware.validate,
     authorizationByAttendantMiddleware.authorization,
     employeeController.findById

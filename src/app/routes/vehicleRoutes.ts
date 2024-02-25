@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { vehicleController } from "../controllers/VehicleController";
-import { authMiddleware } from "../middlewares/AuthMiddleware";
+import { employeeAuthCookieMiddleware } from "../middlewares/employee/EmployeeAuthCookieMiddleware";
 import { authorizationByManagerMiddleware } from "../middlewares/employee/AuthorizationForManagerMiddleware";
 import { authorizationByAttendantMiddleware } from "../middlewares/employee/AuthorizationForAttendantMiddleware";
 import { validPlateFormatMiddleware } from "../middlewares/vehicle/ValidatePlateFormatMiddleware";
@@ -8,6 +8,7 @@ import { validateVehicleCategoryMiddleware } from "../middlewares/vehicle/Valida
 import { existingVehicleMiddleware } from "../middlewares/vehicle/ExistingVehicleMiddleware";
 import { validateVehicleParamsPlateMiddleware } from "../middlewares/vehicle/ValidateVehicleParamsPlateMiddleware";
 import path from "path"
+
 
 
 const vehicleRoutes = Router();
@@ -19,7 +20,7 @@ vehicleRoutes.get('/vehicle', (req: Request, res: Response) => {
 });
 
 vehicleRoutes.post('/vehicles',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
     validPlateFormatMiddleware.validate,
     existingVehicleMiddleware.check,
@@ -29,13 +30,13 @@ vehicleRoutes.post('/vehicles',
 
 // Get
 vehicleRoutes.get('/vehicles/all',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     vehicleController.findAll
 );
 
 vehicleRoutes.get('/vehicles/:plate',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     validateVehicleParamsPlateMiddleware.validate,
     vehicleController.findByPlate

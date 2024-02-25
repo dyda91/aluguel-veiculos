@@ -6,7 +6,9 @@ import { validateLicenseCategoryMiddleware } from '../middlewares/ValidateLicens
 import { authMiddleware } from '../middlewares/AuthMiddleware';
 import { authorizationByAttendantMiddleware } from '../middlewares/employee/AuthorizationForAttendantMiddleware';
 import { validateCustomerParamsIdMiddleware } from '../middlewares/customer/ValidateCustomerParamsIdMiddleware';
+import { employeeAuthCookieMiddleware } from '../middlewares/employee/EmployeeAuthCookieMiddleware';
 import path from 'path';
+
 
 const customerRoutes = Router();
 
@@ -25,13 +27,13 @@ customerRoutes.post('/customers',
 
 // Get
 customerRoutes.get('/customers/all',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     authorizationByAttendantMiddleware.authorization,
     customerController.findAll
 );
 
 customerRoutes.get('/customers/:id',
-    authMiddleware.auth,
+    employeeAuthCookieMiddleware.auth,
     validateCustomerParamsIdMiddleware.validate,
     customerController.findById
 );

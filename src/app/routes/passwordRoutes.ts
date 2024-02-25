@@ -25,13 +25,17 @@ passwordRoutes.get('/password/employee/forgot', (req: Request, res: Response) =>
 
 //Post
 passwordRoutes.post('/password/customer/forgot',
-    customerForgottenPasswordRequestMiddleware.check,
+    customerForgottenPasswordRequestMiddleware.check, (req: Request, res: Response) => {
     passwordController.forgotCustomerPassword
+    res.redirect('/password/customer/change/:id');
+    }
 );
 
 passwordRoutes.post('/password/employee/forgot',
-    employeeForgottenPasswordRequestMiddleware.check,
+    employeeForgottenPasswordRequestMiddleware.check, (req: Request, res: Response) => {
     passwordController.forgotEmployeePassword
+    res.redirect('/password/employee/change/:id');
+    }
 );
 
 //Put

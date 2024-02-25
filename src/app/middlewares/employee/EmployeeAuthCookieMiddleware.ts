@@ -3,13 +3,13 @@ import jwt from 'jsonwebtoken';
 import { AppError } from "../../errors/AppError";
 import { Error } from "sequelize";
 
-class CustomerAuthCookieMiddleware {
+class EmployeeAuthCookieMiddleware {
     async auth(req: Request, res: Response, next: NextFunction) {
         try {
             const token = req.cookies.token
 
             if (!token) {
-                return res.redirect('/login/customer');
+                return res.redirect('/login/employee');
             }
 
             const secret = process.env.JWT_SECRET!;
@@ -17,10 +17,10 @@ class CustomerAuthCookieMiddleware {
             try {
                 const decoded = jwt.verify(token, secret);
                 if (!decoded) {
-                    return res.redirect('/login/customer');
+                    return res.redirect('/login/employee');
                 }
             } catch (error) {
-                return res.redirect('/login/customer');
+                return res.redirect('/login/employee');
             }
 
             next();
@@ -32,6 +32,6 @@ class CustomerAuthCookieMiddleware {
     }
 }
 
-const customerAuthCookieMiddleware = new CustomerAuthCookieMiddleware();
+const employeeAuthCookieMiddleware = new EmployeeAuthCookieMiddleware();
 
-export { customerAuthCookieMiddleware }
+export { employeeAuthCookieMiddleware }
