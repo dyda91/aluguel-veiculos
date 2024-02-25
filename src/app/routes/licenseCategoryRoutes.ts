@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { licenseCategoryController } from '../controllers/LicenseCategoryController';
 import { authMiddleware } from '../middlewares/AuthMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee/AuthorizationForManagerMiddleware';
+import { validateLicenseCategoryParamsIdMiddleware } from '../middlewares/ValidateLicenseCategoryParamsIdMiddleware';
 
 const licenseCategoryRoutes = Router();
 
@@ -22,6 +23,7 @@ licenseCategoryRoutes.get('/licenseCategory',
 licenseCategoryRoutes.get('/licenseCategory/:id',
     authMiddleware.auth,
     authorizationByManagerMiddleware.authorization,
+    validateLicenseCategoryParamsIdMiddleware.validate,
     licenseCategoryController.findById
 );
 

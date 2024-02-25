@@ -7,6 +7,7 @@ import { customerTokenVerificationMiddleware } from '../middlewares/customer/Cus
 import { compareCustomerPasswordsMiddleware } from '../middlewares/customer/CompareCustomerPasswordsMiddleware';
 import { employeeTokenVerificationMiddleware } from '../middlewares/employee/EmployeeTokenVerificationMiddleware';
 import { compareEmployeePasswordsMiddleware } from '../middlewares/employee/CompareEmployeePasswordsMiddleware';
+import { validateCustomerParamsIdMiddleware } from '../middlewares/customer/ValidateCustomerParamsIdMiddleware';
 
 const passwordRoutes = Router();
 
@@ -24,6 +25,7 @@ passwordRoutes.post('/password/employee/forgot',
 //Put
 passwordRoutes.put('/password/customer/change/:id',
     passwordAuthMiddleware.execute,
+    validateCustomerParamsIdMiddleware.validate,
     customerTokenVerificationMiddleware.execute,
     compareCustomerPasswordsMiddleware.compare,
     passwordController.changeCustomerPassword
@@ -31,6 +33,7 @@ passwordRoutes.put('/password/customer/change/:id',
 
 passwordRoutes.put('/password/employee/change/:id',
     passwordAuthMiddleware.execute,
+    validateCustomerParamsIdMiddleware.validate,
     employeeTokenVerificationMiddleware.execute,
     compareEmployeePasswordsMiddleware.compare,
     passwordController.changeEmployeePassword

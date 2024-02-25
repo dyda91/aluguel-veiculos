@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
 import bcrypt from 'bcrypt';
+import { AppError } from '../../errors/AppError';
 
 class ValidateCustomerCpfMiddleware {
     async validate(req: Request, res: Response, next: NextFunction) {
@@ -21,8 +22,8 @@ class ValidateCustomerCpfMiddleware {
 
             next();
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor' });
+            console.error(AppError);
+            res.status(500).json({ AppError: 'Erro interno do servidor' });
             next(error);
         }
     }

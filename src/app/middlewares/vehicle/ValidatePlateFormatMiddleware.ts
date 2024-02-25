@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../../errors/AppError';
 
 class ValidPlateFormatMiddleware {
     async validate(req: Request, res: Response, next: NextFunction) {
@@ -18,7 +19,7 @@ class ValidPlateFormatMiddleware {
 
             next();
         } catch (error) {
-            console.error(error);
+            console.error(AppError);
             res.status(500).json({ error: 'Erro interno do servidor' });
             next(error);
         }

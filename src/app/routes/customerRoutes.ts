@@ -3,9 +3,10 @@ import { customerController } from '../controllers/CustomerController';
 import { validateCustomerCpfMiddleware } from '../middlewares/customer/ValidateCustomerCpfMiddleware';
 import { validateCustomerEmailMiddleware } from '../middlewares/customer/ValidateCustomerEmailMiddleware';
 import { validateLicenseCategoryMiddleware } from '../middlewares/ValidateLicenseCategoryMiddleware';
-import path from 'path';
 import { authMiddleware } from '../middlewares/AuthMiddleware';
 import { authorizationByAttendantMiddleware } from '../middlewares/employee/AuthorizationForAttendantMiddleware';
+import { validateCustomerParamsIdMiddleware } from '../middlewares/customer/ValidateCustomerParamsIdMiddleware';
+import path from 'path';
 
 const customerRoutes = Router();
 
@@ -31,6 +32,7 @@ customerRoutes.get('/customers/all',
 
 customerRoutes.get('/customers/:id',
     authMiddleware.auth,
+    validateCustomerParamsIdMiddleware.validate,
     customerController.findById
 );
 

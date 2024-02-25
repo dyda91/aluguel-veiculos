@@ -4,10 +4,11 @@ import { validateEmployeeCpfMiddleware } from '../middlewares/employee/ValidateE
 import { validateEmployeeEmailMiddleware } from '../middlewares/employee/ValidateEmployeeEmailMiddleware';
 import { validateEmployeePositionMiddleware } from '../middlewares/employee/ValidateEmployeePositionMiddleware';
 import { validateLicenseCategoryMiddleware } from '../middlewares/ValidateLicenseCategoryMiddleware';
-import path from 'path';
 import { authMiddleware } from '../middlewares/AuthMiddleware';
 import { authorizationByManagerMiddleware } from '../middlewares/employee/AuthorizationForManagerMiddleware';
 import { authorizationByAttendantMiddleware } from '../middlewares/employee/AuthorizationForAttendantMiddleware';
+import { validateEmployeeParamsIdMiddleware } from '../middlewares/employee/ValidateEmployeeParamsIdMiddleware';
+import path from 'path';
 
 const employeeRoutes = Router();
 
@@ -36,6 +37,7 @@ employeeRoutes.get('/employees/all',
 
 employeeRoutes.get('/employees/:id',
     authMiddleware.auth,
+    validateEmployeeParamsIdMiddleware.validate,
     authorizationByAttendantMiddleware.authorization,
     employeeController.findById
 );

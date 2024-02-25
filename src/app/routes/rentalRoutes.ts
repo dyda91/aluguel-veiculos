@@ -10,14 +10,14 @@ const rentalRoutes = Router();
 // Get
 rentalRoutes.get('/rentals',
     authMiddleware.auth,
-    // authorizationByManagerMiddleware.authorization,
+    authorizationByManagerMiddleware.authorization,
     rentalController.findAll
 );
 
 rentalRoutes.get('/rentals/:id',
     authMiddleware.auth,
-    // authorizationByAttendantMiddleware.authorization,
-    // existingRentalMiddleware.check,
+    authorizationByAttendantMiddleware.authorization,
+    existingRentalMiddleware.check,
     rentalController.findById
 );
 
@@ -29,15 +29,15 @@ rentalRoutes.post('/rentals',
 
 rentalRoutes.post('/rentals/start',
     authMiddleware.auth,
-    // authorizationByAttendantMiddleware.authorization,
-    // existingRentalMiddleware.check,
+    authorizationByAttendantMiddleware.authorization,
+    existingRentalMiddleware.check,
     rentalController.startRental
 );
 
 rentalRoutes.post('/rentals/complete',
     authMiddleware.auth,
-    // authorizationByAttendantMiddleware.authorization,
-    // existingRentalMiddleware.check,
+    authorizationByAttendantMiddleware.authorization,
+    existingRentalMiddleware.check,
     rentalController.completeRental
 );
 

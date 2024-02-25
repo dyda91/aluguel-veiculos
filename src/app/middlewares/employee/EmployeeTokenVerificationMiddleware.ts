@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { employeeRepository } from "../../../infra/db/sequelize/repositories/employeeRepository";
 import jwt from 'jsonwebtoken';
+import { AppError } from "../../errors/AppError";
 
 class EmployeeTokenVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
@@ -33,7 +34,7 @@ class EmployeeTokenVerificationMiddleware {
             }
         }
         catch (error) {
-            console.error(error);
+            console.error(AppError);
             res.status(500).json({ error: 'Erro interno do servidor' });
             next(error);
         }

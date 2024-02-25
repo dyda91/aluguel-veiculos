@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
+import { AppError } from "../errors/AppError";
 
 class AuthMiddleware {
   async auth(req: Request, res: Response, next: NextFunction) {
@@ -25,7 +26,7 @@ class AuthMiddleware {
 
       next();
     } catch (error) {
-      console.error(error);
+      console.error(AppError);
       res.status(500).json({ error: 'Erro interno do servidor' });
       next(error);
     }

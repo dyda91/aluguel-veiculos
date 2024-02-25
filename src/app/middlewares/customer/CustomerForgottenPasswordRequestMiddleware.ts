@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { customerRepository } from '../../../infra/db/sequelize/repositories/customerRepository';
 import bcrypt from 'bcrypt';
+import { AppError } from '../../errors/AppError';
 
 
 class CustomerForgottenPasswordRequestMiddleware {
@@ -9,19 +10,24 @@ class CustomerForgottenPasswordRequestMiddleware {
         try {
             const customerEmail = await customerRepository.findByEmail(email);
             
-            const customerCPF = await customerRepository.findByCpf(cpf)
-            const compareCustomerCpf = await bcrypt.compareSync(cpf, (await customerCPF).cpf)
-                 
+            const customerCpf = await customerRepository.findByCpf(cpf);
+            const cpfString = String(cpf);
+            const compareCustomerCpf = bcrypt.compareSync(cpfString, customerCpf.cpf);
 
             if (!customerEmail) {
                 return res.status(400).json({ error: 'Email ou CPF inválidos' });
             }    
 
-            else if (!compareCustomerCpf) {
+            if (!compareCustomerCpf) {
+                console.log(customerCpf.cpf + " " + cpf);
                 return res.status(400).json({ error: 'Email ou CPF inválidos' });
             }
 
-            else if (customerEmail != customerCPF) {
+            if (!customerCpf) {
+                return res.status(400).json({ error: 'Email ou CPF inválidos' });
+            }
+
+            if (customerCpf.id != customerEmail.id) {
                 return res.status(400).json({ error: 'Email ou CPF inválidos' });
             }
 
@@ -29,7 +35,7 @@ class CustomerForgottenPasswordRequestMiddleware {
                 next();
             }
         } catch (error) {
-            console.error(error);
+            console.error(AppError);
             res.status(500).json({ error: 'Erro interno do servidor' });
             next(error);
         }

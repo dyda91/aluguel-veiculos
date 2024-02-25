@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { employeePositionRepository } from '../../../infra/db/sequelize/repositories/employeePositionRepository';
+import { AppError } from '../../errors/AppError';
 
 class ValidateEmployeePositionMiddleware {
   async validate(req: Request, res: Response, next: NextFunction) {
@@ -13,7 +14,7 @@ class ValidateEmployeePositionMiddleware {
 
       next();
     } catch (error) {
-      console.error(error);
+      console.error(AppError);
       res.status(500).json({ error: 'Erro interno do servidor' });
       next(error);
     }

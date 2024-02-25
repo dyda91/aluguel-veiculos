@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { rentalRepository } from '../../infra/db/sequelize/repositories/rentalRepository';
+import { AppError } from '../errors/AppError';
 
 class ExistingRentalMiddleware {
   async check(req: Request, res: Response, next: NextFunction) {
@@ -14,7 +15,7 @@ class ExistingRentalMiddleware {
 
       next();
     } catch (error) {
-      console.error(error);
+      console.error(AppError);
       res.status(500).json({ error: 'Erro interno do servidor' });
       next(error);
     }

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { employeeRepository } from "../../../infra/db/sequelize/repositories/employeeRepository";
 import { encrypt } from '../../helpers/cryptHelper';
+import { AppError } from '../../errors/AppError';
 
 class EmployeeLoginVerificationMiddleware {
     async execute(req: Request, res: Response, next: NextFunction) {
@@ -21,7 +22,7 @@ class EmployeeLoginVerificationMiddleware {
                 next();
             }
         } catch (error) {
-            console.error(error);
+            console.error(AppError);
             res.status(500).json({ error: 'Erro interno do servidor' });
             next(error);
         }

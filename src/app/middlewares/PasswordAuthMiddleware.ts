@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
+import { AppError } from "../errors/AppError";
 
 class PasswordAuthMiddleware {
   execute(req: Request, res: Response, next: NextFunction) {
@@ -18,10 +19,15 @@ class PasswordAuthMiddleware {
 
       const secret = process.env.JWT_SECRET_2!;
 
-      jwt.verify(accessToken, secret);
+      try {
+        jwt.verify(accessToken, secret);
+      } catch (error) {
+        return res.status(400).send({ error: 'Token Inválido' });
+      }
+
       next();
     } catch (error) {
-      console.error(error);
+      console.error(AppError);
       res.status(500).json({ error: 'Erro interno do servidor' });
       next(error);
     }
@@ -30,4 +36,4 @@ class PasswordAuthMiddleware {
 
 const passwordAuthMiddleware = new PasswordAuthMiddleware();
 
-export {passwordAuthMiddleware}
+export { passwordAuthMiddleware }

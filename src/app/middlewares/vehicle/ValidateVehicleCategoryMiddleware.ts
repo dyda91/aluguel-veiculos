@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { vehicleCategoryRepository } from '../../../infra/db/sequelize/repositories/vehicleCategoryRepository';
+import { AppError } from '../../errors/AppError';
 
 class ValidateVehicleCategoryMiddleware {
   async validate(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +25,7 @@ class ValidateVehicleCategoryMiddleware {
 
       next();
     } catch (error) {
-      console.error(error);
+      console.error(AppError);
       res.status(500).json({ error: 'Erro interno do servidor' });
       next(error);
     }
