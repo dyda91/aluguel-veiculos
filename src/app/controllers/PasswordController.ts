@@ -11,6 +11,7 @@ class PasswordController {
         try {
             const { email, cpf } = req.body;
             const reply = await customerForgotPasswordService.forgotPassword({ email, cpf });
+            res.cookie('token', reply, { httpOnly: true, maxAge: 3600000 });
             res.send(reply);
             next();
         } catch (error) {
@@ -24,6 +25,7 @@ class PasswordController {
         try {
             const { email, cpf } = req.body;
             const reply = await employeeForgotPasswordService.forgotPassword({ email, cpf });
+            res.cookie('token', reply, { httpOnly: true, maxAge: 3600000 });
             res.send(reply);
             next();
         } catch (error) {

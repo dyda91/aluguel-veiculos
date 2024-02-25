@@ -6,7 +6,7 @@ class CustomerForgotPasswordService {
     async forgotPassword({ email, cpf }) {
         const secret = process.env.JWT_SECRET_2!;
         const customerCpf = await customerRepository.findByCpf(cpf)
-        const compareCpf = bcrypt.compareSync(cpf, (await customerCpf).cpf);
+        const compareCpf = bcrypt.compareSync(cpf, customerCpf.cpf);
         const customer = await customerRepository.findByEmail(email);
 
         if (compareCpf && customer) {
